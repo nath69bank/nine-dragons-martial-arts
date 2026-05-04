@@ -1,0 +1,238 @@
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Near-pure black with a deep blue tint — matches logo outer ring */
+    --background: 220 65% 1%;
+    --foreground: 0 0% 100%;
+
+    /* Cards: dark navy, lifted slightly from black */
+    --card: 222 65% 4%;
+    --card-foreground: 0 0% 100%;
+
+    /* Primary = warm gold from the logo ring */
+    --primary: 43 62% 54%;
+    --primary-foreground: 220 65% 1%;
+
+    /* Secondary = deep royal blue from the dragon body */
+    --secondary: 220 70% 18%;
+    --secondary-foreground: 210 40% 88%;
+
+    /* Muted = dark blue-navy */
+    --muted: 220 60% 14%;
+    --muted-foreground: 210 20% 58%;
+
+    --accent: 43 62% 54%;
+    --accent-foreground: 220 65% 1%;
+
+    --border: 220 45% 16%;
+    --input: 220 60% 12%;
+    --ring: 43 40% 42%;
+
+    /* Subtitle in hero */
+    --hero-subtitle: 210 35% 88%;
+
+    /* Named palette for inline use */
+    --gold: 43 62% 54%;
+    --gold-bright: 46 80% 68%;
+    --royal-blue: 220 75% 42%;
+    --ice-blue: 210 60% 72%;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    /* clip instead of hidden — does NOT create a scroll container */
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+  button { cursor: pointer; font-family: inherit; border: none; background: none; }
+}
+
+@layer components {
+  /* ── Liquid Glass ─ gold+blue dual shimmer border ── */
+  .liquid-glass {
+    background: rgba(26, 79, 200, 0.04);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: none;
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.07),
+      inset 0 -1px 1px rgba(201, 161, 74, 0.04);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(
+      160deg,
+      rgba(201, 161, 74, 0.55) 0%,
+      rgba(201, 161, 74, 0.18) 18%,
+      rgba(26, 79, 200, 0.12) 38%,
+      rgba(26, 79, 200, 0.06) 50%,
+      rgba(201, 161, 74, 0.06) 62%,
+      rgba(201, 161, 74, 0.18) 82%,
+      rgba(201, 161, 74, 0.55) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* ── Gold + Blue shimmer headline ── */
+  .gold-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--foreground)) 0%,
+      hsl(43, 80%, 80%) 28%,
+      hsl(210, 80%, 82%) 45%,
+      hsl(43, 80%, 80%) 62%,
+      hsl(var(--foreground)) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear infinite;
+  }
+
+  /* ── Dragon scale hex-mesh drifting bg ── */
+  .dragon-scales {
+    background-image:
+      repeating-linear-gradient(
+        60deg,
+        transparent, transparent 28px,
+        rgba(26, 79, 200, 0.03) 28px, rgba(26, 79, 200, 0.03) 29px
+      ),
+      repeating-linear-gradient(
+        -60deg,
+        transparent, transparent 28px,
+        rgba(201, 161, 74, 0.02) 28px, rgba(201, 161, 74, 0.02) 29px
+      );
+    animation: scale-drift 40s linear infinite;
+  }
+
+  /* ── Section typography ── */
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: hsl(var(--gold));
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .section-h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: hsl(var(--foreground));
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .section-h2 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: hsl(var(--gold));
+    text-transform: none;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Floating Chinese character ── */
+  .float-char {
+    animation: float-char 6s ease-in-out infinite, gold-pulse 3s ease-in-out infinite;
+  }
+
+  /* ── Animated section divider line ── */
+  .gold-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(201,161,74,0.5) 50%, transparent 100%);
+    transform-origin: center;
+  }
+
+  /* ── Touch-friendly tap target ── */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ── Gold + Blue card — hover lifts with dual glow ── */
+  .gold-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+  }
+
+  .gold-card:hover {
+    border-color: hsl(var(--gold) / 0.5);
+    box-shadow:
+      0 0 0 1px rgba(201, 161, 74, 0.1),
+      0 0 40px rgba(201, 161, 74, 0.1),
+      0 0 80px rgba(26, 79, 200, 0.08),
+      0 24px 60px rgba(0, 0, 0, 0.5);
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes scale-drift {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 200%; }
+}
+
+@keyframes float-char {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-10px) rotate(-1deg); }
+  66%       { transform: translateY(-4px) rotate(1deg); }
+}
+
+@keyframes gold-pulse {
+  0%, 100% { opacity: 0.32; text-shadow: 0 0 12px rgba(201,161,74,0.2); }
+  50%       { opacity: 0.75; text-shadow: 0 0 32px rgba(201,161,74,0.55), 0 0 60px rgba(26,79,200,0.2); }
+}
+
+@keyframes line-grow {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}

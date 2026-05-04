@@ -1,0 +1,332 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <!-- Outer background radial -->
+    <radialGradient id="outerBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#050d1e"/>
+      <stop offset="60%" stop-color="#020810"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+
+    <!-- Deep navy ring fill -->
+    <radialGradient id="navyRing" cx="50%" cy="45%" r="52%">
+      <stop offset="0%" stop-color="#0d2260"/>
+      <stop offset="55%" stop-color="#0a1a4a"/>
+      <stop offset="100%" stop-color="#060f2a"/>
+    </radialGradient>
+
+    <!-- Yin-yang dark half -->
+    <radialGradient id="yinDark" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0f1e4a"/>
+      <stop offset="100%" stop-color="#070d22"/>
+    </radialGradient>
+
+    <!-- Yin-yang light half -->
+    <radialGradient id="yangLight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c0cce0"/>
+      <stop offset="50%" stop-color="#8a9bb5"/>
+      <stop offset="100%" stop-color="#4a5a78"/>
+    </radialGradient>
+
+    <!-- Dragon body cobalt gradient -->
+    <linearGradient id="dragonBody" x1="70%" y1="10%" x2="30%" y2="90%">
+      <stop offset="0%" stop-color="#3a80e0"/>
+      <stop offset="40%" stop-color="#1a5fc0"/>
+      <stop offset="80%" stop-color="#0f3d8a"/>
+      <stop offset="100%" stop-color="#0a2a60"/>
+    </linearGradient>
+
+    <!-- Dragon highlight gradient -->
+    <linearGradient id="dragonHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a8ff"/>
+      <stop offset="50%" stop-color="#3a80e0"/>
+      <stop offset="100%" stop-color="#1a5fc0"/>
+    </linearGradient>
+
+    <!-- Dragon belly gold -->
+    <linearGradient id="dragonBelly" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0b85a"/>
+      <stop offset="50%" stop-color="#c9a14a"/>
+      <stop offset="100%" stop-color="#a07830"/>
+    </linearGradient>
+
+    <!-- Gold ring gradient -->
+    <linearGradient id="goldRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8c060"/>
+      <stop offset="25%" stop-color="#c9a14a"/>
+      <stop offset="50%" stop-color="#f0d070"/>
+      <stop offset="75%" stop-color="#c9a14a"/>
+      <stop offset="100%" stop-color="#e8c060"/>
+    </linearGradient>
+
+    <!-- Inner glow for yin side -->
+    <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#20c0ff"/>
+      <stop offset="60%" stop-color="#0090cc"/>
+      <stop offset="100%" stop-color="#004466"/>
+    </radialGradient>
+
+    <!-- Small dragon gradient -->
+    <linearGradient id="miniDragon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3a80e0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#1a5fc0" stop-opacity="0.7"/>
+    </linearGradient>
+
+    <!-- Clip path for yin half (dark) -->
+    <clipPath id="yinClip">
+      <path d="M 150,40 A 110,110 0 0,0 150,260 A 55,55 0 0,1 150,150 A 55,55 0 0,0 150,40 Z"/>
+    </clipPath>
+
+    <!-- Clip path for yang half (light) -->
+    <clipPath id="yangClip">
+      <path d="M 150,40 A 110,110 0 0,1 150,260 A 55,55 0 0,0 150,150 A 55,55 0 0,1 150,40 Z"/>
+    </clipPath>
+
+    <!-- Drop shadow for dragon -->
+    <filter id="dragonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#3a80e0" flood-opacity="0.6" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Gold glow filter -->
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+      <feFlood flood-color="#c9a14a" flood-opacity="0.7" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Outer mask for yin-yang circle -->
+    <clipPath id="circleClip">
+      <circle cx="150" cy="150" r="108"/>
+    </clipPath>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- LAYER 1: Outer black background circle      -->
+  <!-- ═══════════════════════════════════════════ -->
+  <circle cx="150" cy="150" r="150" fill="url(#outerBg)"/>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- LAYER 2: Deep navy fill ring                -->
+  <!-- ═══════════════════════════════════════════ -->
+  <circle cx="150" cy="150" r="138" fill="url(#navyRing)"/>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- LAYER 3: Gold border ring (outer)           -->
+  <!-- ═══════════════════════════════════════════ -->
+  <circle cx="150" cy="150" r="139" fill="none" stroke="url(#goldRing)" stroke-width="3.5"/>
+  <!-- Inner gold ring -->
+  <circle cx="150" cy="150" r="112" fill="none" stroke="rgba(201,161,74,0.4)" stroke-width="1.2"/>
+  <!-- Dashed decorative ring -->
+  <circle cx="150" cy="150" r="125" fill="none" stroke="rgba(201,161,74,0.2)" stroke-width="0.8" stroke-dasharray="5,4"/>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- LAYER 4: Yin-Yang shape                     -->
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- Dark (yin) half — navy -->
+  <g clip-path="url(#circleClip)">
+    <!-- Full dark half -->
+    <path d="M 150,42 A 108,108 0 0,0 150,258 A 54,54 0 0,1 150,150 A 54,54 0 0,0 150,42 Z"
+          fill="url(#yinDark)"/>
+    <!-- Light (yang) half — silver-blue-grey -->
+    <path d="M 150,42 A 108,108 0 0,1 150,258 A 54,54 0 0,0 150,150 A 54,54 0 0,1 150,42 Z"
+          fill="url(#yangLight)"/>
+    <!-- Small dark circle on light half -->
+    <circle cx="150" cy="204" r="18" fill="url(#yinDark)"/>
+    <!-- Small light circle on dark half -->
+    <circle cx="150" cy="96" r="18" fill="url(#yangLight)"/>
+    <!-- Dividing line subtle -->
+    <line x1="150" y1="42" x2="150" y2="258" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+  </g>
+
+  <!-- Yin-yang outer ring stroke -->
+  <circle cx="150" cy="150" r="108" fill="none" stroke="rgba(201,161,74,0.5)" stroke-width="1.8"/>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- LAYER 5: MAIN DRAGON — S-curve, upper-right -->
+  <!-- to lower-left, vivid cobalt blue            -->
+  <!-- ═══════════════════════════════════════════ -->
+  <g filter="url(#dragonGlow)">
+    <!-- Dragon body — main thick S-curve spine -->
+    <path d="M 210,62 C 230,72 238,88 225,105 C 215,118 200,118 192,128
+             C 180,142 182,158 178,170 C 172,185 162,192 155,200
+             C 145,212 138,225 130,238 C 122,250 108,255 98,248"
+          fill="none" stroke="url(#dragonBody)" stroke-width="14"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Dragon body highlight stripe -->
+    <path d="M 210,62 C 230,72 238,88 225,105 C 215,118 200,118 192,128
+             C 180,142 182,158 178,170 C 172,185 162,192 155,200
+             C 145,212 138,225 130,238 C 122,250 108,255 98,248"
+          fill="none" stroke="url(#dragonHighlight)" stroke-width="5"
+          stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="0"/>
+
+    <!-- Dragon belly scales — gold underside -->
+    <path d="M 212,65 C 228,76 234,92 220,108 C 210,122 195,122 188,132
+             C 177,146 180,160 176,172 C 170,187 160,195 153,203
+             C 143,215 136,228 128,240"
+          fill="none" stroke="url(#dragonBelly)" stroke-width="4"
+          stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+
+    <!-- DRAGON HEAD — upper right -->
+    <!-- Head base shape -->
+    <ellipse cx="215" cy="72" rx="22" ry="16" fill="url(#dragonBody)" transform="rotate(-20,215,72)"/>
+    <!-- Snout -->
+    <path d="M 226,60 C 238,52 248,55 245,63 C 242,70 232,70 228,72"
+          fill="url(#dragonBody)" stroke="url(#dragonHighlight)" stroke-width="1.5"/>
+    <!-- Jaw lower -->
+    <path d="M 222,74 C 234,78 242,76 240,84 C 237,90 228,88 222,84"
+          fill="url(#dragonBody)" stroke="rgba(201,161,74,0.6)" stroke-width="1"/>
+
+    <!-- Nostrils -->
+    <ellipse cx="242" cy="62" rx="2.5" ry="1.5" fill="rgba(201,161,74,0.8)" transform="rotate(-15,242,62)"/>
+    <ellipse cx="238" cy="65" rx="1.8" ry="1.2" fill="rgba(20,192,255,0.5)" transform="rotate(-15,238,65)"/>
+
+    <!-- TEETH -->
+    <path d="M 230,70 L 234,65 L 237,70" fill="rgba(230,230,240,0.9)" stroke="none"/>
+    <path d="M 236,70 L 239,65.5 L 242,70" fill="rgba(230,230,240,0.9)" stroke="none"/>
+    <!-- Lower teeth -->
+    <path d="M 231,75 L 234,80 L 237,75" fill="rgba(230,230,240,0.85)" stroke="none"/>
+
+    <!-- EYE — cyan glowing -->
+    <circle cx="222" cy="66" r="5.5" fill="url(#eyeGlow)"/>
+    <circle cx="222" cy="66" r="3.5" fill="#20c0ff"/>
+    <circle cx="222" cy="66" r="2" fill="#80e8ff"/>
+    <circle cx="220.5" cy="64.5" r="0.9" fill="white" opacity="0.9"/>
+    <!-- Eye socket shadow -->
+    <circle cx="222" cy="66" r="6.5" fill="none" stroke="rgba(0,150,200,0.5)" stroke-width="1.2"/>
+
+    <!-- HORNS — gold -->
+    <path d="M 210,58 C 205,44 210,36 218,38 C 222,39 220,48 216,52"
+          fill="url(#dragonBelly)" stroke="rgba(201,161,74,0.9)" stroke-width="1.5"/>
+    <path d="M 218,56 C 215,44 222,37 228,41 C 232,44 228,52 224,54"
+          fill="url(#dragonBelly)" stroke="rgba(201,161,74,0.8)" stroke-width="1.5"/>
+
+    <!-- MANE / WHISKERS — gold -->
+    <path d="M 206,65 C 196,56 188,50 180,48" fill="none" stroke="url(#dragonBelly)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 208,70 C 198,65 190,62 182,63" fill="none" stroke="url(#dragonBelly)" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M 207,60 C 200,52 196,44 200,38" fill="none" stroke="rgba(201,161,74,0.6)" stroke-width="1.2" stroke-linecap="round"/>
+
+    <!-- HEAD SPINES -->
+    <path d="M 212,60 L 208,50 L 215,57" fill="url(#dragonBelly)" stroke="rgba(201,161,74,0.7)" stroke-width="0.8"/>
+    <path d="M 218,58 L 216,47 L 221,56" fill="url(#dragonBelly)" stroke="rgba(201,161,74,0.7)" stroke-width="0.8"/>
+
+    <!-- BODY SCALES / DORSAL SPINES along the S-curve -->
+    <g fill="url(#dragonBelly)" stroke="rgba(201,161,74,0.5)" stroke-width="0.6">
+      <path d="M 200,104 L 193,95 L 198,107"/>
+      <path d="M 188,120 L 180,113 L 186,123"/>
+      <path d="M 180,138 L 171,132 L 177,141"/>
+      <path d="M 174,156 L 165,151 L 171,159"/>
+      <path d="M 168,172 L 159,168 L 165,176"/>
+      <path d="M 158,188 L 149,185 L 155,192"/>
+      <path d="M 146,204 L 137,202 L 143,209"/>
+      <path d="M 134,220 L 125,219 L 131,226"/>
+    </g>
+
+    <!-- FRONT CLAWS — upper body -->
+    <g fill="none" stroke="url(#dragonBelly)" stroke-width="2" stroke-linecap="round">
+      <path d="M 205,118 C 215,112 222,108 228,112"/>
+      <path d="M 228,112 L 234,106 M 228,112 L 232,115 M 228,112 L 236,113 M 228,112 L 233,120"/>
+    </g>
+
+    <!-- MID-BODY CLAWS -->
+    <g fill="none" stroke="url(#dragonBelly)" stroke-width="1.8" stroke-linecap="round">
+      <path d="M 180,168 C 170,162 164,160 158,164"/>
+      <path d="M 158,164 L 152,158 M 158,164 L 154,167 M 158,164 L 160,157 M 158,164 L 165,161"/>
+    </g>
+
+    <!-- TAIL — lower left, coiling -->
+    <path d="M 100,248 C 90,252 82,248 80,240 C 78,232 84,228 90,232 C 96,236 93,244 88,244 C 84,244 82,240 85,237"
+          fill="none" stroke="url(#dragonBody)" stroke-width="8"
+          stroke-linecap="round"/>
+    <path d="M 100,248 C 90,252 82,248 80,240 C 78,232 84,228 90,232 C 96,236 93,244 88,244 C 84,244 82,240 85,237"
+          fill="none" stroke="url(#dragonHighlight)" stroke-width="3"
+          stroke-linecap="round"/>
+    <!-- Tail tip -->
+    <path d="M 85,237 C 82,233 84,228 88,230 C 91,232 90,236 87,236"
+          fill="none" stroke="url(#dragonBelly)" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- LAYER 6: MINI DRAGON — left side            -->
+  <!-- ═══════════════════════════════════════════ -->
+  <g filter="url(#dragonGlow)" opacity="0.85">
+    <!-- Mini body -->
+    <path d="M 62,118 C 52,126 46,138 52,150 C 57,160 68,160 72,170 C 76,178 72,188 68,194"
+          fill="none" stroke="url(#miniDragon)" stroke-width="7"
+          stroke-linecap="round"/>
+    <path d="M 62,118 C 52,126 46,138 52,150 C 57,160 68,160 72,170 C 76,178 72,188 68,194"
+          fill="none" stroke="#60a8ff" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- Mini head -->
+    <ellipse cx="67" cy="112" rx="10" ry="8" fill="url(#miniDragon)" transform="rotate(15,67,112)"/>
+    <!-- Mini eye -->
+    <circle cx="70" cy="109" r="2.5" fill="url(#eyeGlow)"/>
+    <circle cx="70" cy="109" r="1.5" fill="#20c0ff"/>
+    <!-- Mini horn -->
+    <path d="M 62,106 C 59,100 62,96 65,98" fill="none" stroke="url(#dragonBelly)" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Mini whisker -->
+    <path d="M 75,110 C 80,107 84,108" fill="none" stroke="rgba(201,161,74,0.7)" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Mini claws -->
+    <g fill="none" stroke="rgba(201,161,74,0.8)" stroke-width="1.2" stroke-linecap="round">
+      <path d="M 54,150 L 48,146 M 54,150 L 50,153 M 54,150 L 46,151"/>
+    </g>
+    <!-- Mini spines -->
+    <g fill="rgba(201,161,74,0.6)" stroke="none">
+      <path d="M 62,130 L 57,124 L 63,132"/>
+      <path d="M 64,144 L 59,138 L 65,146"/>
+      <path d="M 68,160 L 63,154 L 69,162"/>
+    </g>
+  </g>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- LAYER 7: Decorative outer ornaments         -->
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- Cardinal tick marks -->
+  <g stroke="rgba(201,161,74,0.55)" stroke-width="2" stroke-linecap="round">
+    <line x1="150" y1="12" x2="150" y2="24"/>
+    <line x1="150" y1="276" x2="150" y2="288"/>
+    <line x1="12" y1="150" x2="24" y2="150"/>
+    <line x1="276" y1="150" x2="288" y2="150"/>
+  </g>
+  <!-- Diagonal ticks -->
+  <g stroke="rgba(201,161,74,0.3)" stroke-width="1.2" stroke-linecap="round">
+    <line x1="44" y1="44" x2="52" y2="52"/>
+    <line x1="256" y1="44" x2="248" y2="52"/>
+    <line x1="44" y1="256" x2="52" y2="248"/>
+    <line x1="256" y1="256" x2="248" y2="248"/>
+  </g>
+  <!-- Corner diamond ornaments -->
+  <g fill="url(#goldRing)">
+    <polygon points="150,4 154,11 150,18 146,11" opacity="0.8"/>
+    <polygon points="150,282 154,289 150,296 146,289" opacity="0.8"/>
+  </g>
+  <!-- Side diamond ornaments -->
+  <g fill="rgba(201,161,74,0.6)">
+    <polygon points="4,150 11,154 18,150 11,146"/>
+    <polygon points="282,150 289,154 296,150 289,146"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- LAYER 8: Text "九 龍" at bottom             -->
+  <!-- ═══════════════════════════════════════════ -->
+  <text x="150" y="275" text-anchor="middle"
+        font-family="'Noto Serif CJK SC', 'SimSun', 'MS Mincho', serif"
+        font-size="18"
+        fill="rgba(201,161,74,0.5)"
+        letter-spacing="8">九 龍</text>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- LAYER 9: Outermost gold border ring finish  -->
+  <!-- ═══════════════════════════════════════════ -->
+  <circle cx="150" cy="150" r="148" fill="none" stroke="rgba(201,161,74,0.15)" stroke-width="1"/>
+  <circle cx="150" cy="150" r="144" fill="none" stroke="rgba(26,95,192,0.12)" stroke-width="0.6"/>
+</svg>
