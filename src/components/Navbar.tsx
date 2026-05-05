@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Instagram, Facebook, Youtube, Menu, X } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
 const NAV_LINKS = [
@@ -107,6 +108,14 @@ export default function Navbar() {
             ))}
           </div>
 
+          {/* Members login — desktop */}
+          <Link
+            to="/login"
+            className="ml-2 hidden lg:flex items-center gap-2 rounded-full px-4 py-2 text-[11px] font-bold tracking-[0.18em] uppercase border border-[rgba(201,161,74,0.35)] text-[#c9a14a] hover:bg-[rgba(201,161,74,0.08)] transition-all duration-200"
+          >
+            Members
+          </Link>
+
           {/* Desktop CTA */}
           <a
             href="mailto:hello@ninedragonsmartialarts.co.uk?subject=Free Trial Request"
@@ -180,7 +189,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: 0.28 }}
-                className="mt-8"
+                className="mt-8 flex flex-col gap-3"
               >
                 <a
                   href="mailto:hello@ninedragonsmartialarts.co.uk?subject=Free Trial Request"
@@ -194,7 +203,14 @@ export default function Navbar() {
                 >
                   Book Free Trial
                 </a>
-                <p className="text-center text-xs text-white/30 mt-3">Your first class is free</p>
+                <Link
+                  to="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="block text-center py-3 rounded-full text-sm font-bold tracking-[0.18em] uppercase border border-[rgba(201,161,74,0.35)] text-[#c9a14a]"
+                >
+                  Members Login
+                </Link>
+                <p className="text-center text-xs text-white/30">Your first class is free</p>
               </motion.div>
 
               {/* Socials */}
