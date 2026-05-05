@@ -14,6 +14,7 @@ import JoinCTA from '@/components/JoinCTA'
 import Footer from '@/components/Footer'
 import ScrollJourney from '@/components/ScrollJourney'
 import DragonDivider from '@/components/DragonDivider'
+import BeltJourney from '@/components/BeltJourney'
 
 // Auth
 import Login from '@/pages/Login'
@@ -55,6 +56,8 @@ function PublicSite() {
       <Testimonials />
       <DragonDivider chapter={8} title="Your Turn" char="起" />
       <JoinCTA />
+      <DragonDivider chapter={9} title="The Colours" char="帯" />
+      <BeltJourney />
       <Footer />
     </main>
   )
