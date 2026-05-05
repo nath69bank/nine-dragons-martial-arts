@@ -32,6 +32,8 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        gold:  '#c9a14a',
+        royal: '#1a4fc8',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

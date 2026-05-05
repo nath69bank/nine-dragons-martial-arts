@@ -1,3 +1,6 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+// Public site
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import WhyItMatters from '@/components/WhyItMatters'
@@ -12,12 +15,30 @@ import Footer from '@/components/Footer'
 import ScrollJourney from '@/components/ScrollJourney'
 import DragonDivider from '@/components/DragonDivider'
 
-export default function App() {
+// Auth
+import Login from '@/pages/Login'
+import { ProtectedRoute, AdminRoute } from '@/components/ProtectedRoute'
+
+// Member portal
+import MemberLayout from '@/pages/member/MemberLayout'
+import MemberDashboard from '@/pages/member/MemberDashboard'
+import MemberLessons from '@/pages/member/MemberLessons'
+import MemberNutrition from '@/pages/member/MemberNutrition'
+import MemberGradings from '@/pages/member/MemberGradings'
+
+// Admin panel
+import AdminLayout from '@/pages/admin/AdminLayout'
+import AdminOverview from '@/pages/admin/AdminOverview'
+import AdminMembers from '@/pages/admin/AdminMembers'
+import AdminBelts from '@/pages/admin/AdminBelts'
+import AdminLessons from '@/pages/admin/AdminLessons'
+import AdminNutrition from '@/pages/admin/AdminNutrition'
+
+function PublicSite() {
   return (
     <main className="bg-background text-foreground">
       <Navbar />
       <ScrollJourney />
-
       <Hero />
       <WhyItMatters />
       <DragonDivider chapter={2} title="The Way" char="道" />
@@ -34,8 +55,36 @@ export default function App() {
       <Testimonials />
       <DragonDivider chapter={8} title="Your Turn" char="起" />
       <JoinCTA />
-
       <Footer />
     </main>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<PublicSite />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Member portal */}
+        <Route path="/member" element={<ProtectedRoute><MemberLayout /></ProtectedRoute>}>
+          <Route index element={<MemberDashboard />} />
+          <Route path="lessons"   element={<MemberLessons />} />
+          <Route path="nutrition" element={<MemberNutrition />} />
+          <Route path="gradings"  element={<MemberGradings />} />
+        </Route>
+
+        {/* Admin panel */}
+        <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+          <Route index element={<AdminOverview />} />
+          <Route path="members"   element={<AdminMembers />} />
+          <Route path="belts"     element={<AdminBelts />} />
+          <Route path="lessons"   element={<AdminLessons />} />
+          <Route path="nutrition" element={<AdminNutrition />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
