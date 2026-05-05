@@ -14,7 +14,6 @@ import JoinCTA from '@/components/JoinCTA'
 import Footer from '@/components/Footer'
 import ScrollJourney from '@/components/ScrollJourney'
 import DragonDivider from '@/components/DragonDivider'
-import BeltJourney from '@/components/BeltJourney'
 
 // Auth
 import Login from '@/pages/Login'
@@ -26,6 +25,7 @@ import MemberDashboard from '@/pages/member/MemberDashboard'
 import MemberLessons from '@/pages/member/MemberLessons'
 import MemberNutrition from '@/pages/member/MemberNutrition'
 import MemberGradings from '@/pages/member/MemberGradings'
+import MemberBelts from '@/pages/member/MemberBelts'
 
 // Admin panel
 import AdminLayout from '@/pages/admin/AdminLayout'
@@ -56,8 +56,6 @@ function PublicSite() {
       <Testimonials />
       <DragonDivider chapter={8} title="Your Turn" char="起" />
       <JoinCTA />
-      <DragonDivider chapter={9} title="The Colours" char="帯" />
-      <BeltJourney />
       <Footer />
     </main>
   )
@@ -77,6 +75,7 @@ export default function App() {
           <Route path="lessons"   element={<MemberLessons />} />
           <Route path="nutrition" element={<MemberNutrition />} />
           <Route path="gradings"  element={<MemberGradings />} />
+          <Route path="belts"     element={<MemberBelts />} />
         </Route>
 
         {/* Admin panel */}

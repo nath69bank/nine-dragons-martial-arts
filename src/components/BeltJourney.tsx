@@ -1,258 +1,229 @@
 import { motion } from 'framer-motion'
 
-// Main belt levels — each has a "Black tag" intermediate before the next colour
-const BELTS = [
+type BeltEntry = {
+  name: string
+  meaning: string
+  description: string
+  primary: string
+  secondary?: string // for dual-colour belts (e.g. Purple Black)
+  border: string
+  isDan?: boolean
+  danLabel?: string
+}
+
+const BELTS: BeltEntry[] = [
   {
-    color: '#ffffff',
-    border: '#999999',
     name: 'White Belt',
     meaning: 'The Beginning',
+    primary: '#ffffff',
+    border: '#999999',
     description:
-      'White represents a blank canvas. You arrive with no knowledge and no preconceptions — open to everything. The journey starts here.',
-    isMain: true,
+      'White is a blank canvas. You arrive with no knowledge and no preconceptions — open to everything the training has to offer. Every Black Belt started exactly here.',
   },
   {
-    color: '#800080',
-    border: '#500050',
     name: 'Purple Belt',
     meaning: 'Awakening',
+    primary: '#800080',
+    border: '#500050',
     description:
-      'Purple is the colour of dawn — the first real light. You\'ve left white behind and taken your first step into structured martial arts training.',
-    isMain: true,
+      'Purple marks your first real step into structured kickboxing. The basics are taking hold — you\'re learning to move, strike, and think like a martial artist.',
   },
   {
-    color: '#228b22',
-    border: '#155715',
+    name: 'Purple Black Belt',
+    meaning: 'Consolidation',
+    primary: '#800080',
+    secondary: '#111111',
+    border: '#500050',
+    description:
+      'Purple Black confirms that your Purple Belt standard is solid. Technique is consistent, attitude is right, and you\'re ready to push into the next colour.',
+  },
+  {
     name: 'Green Belt',
     meaning: 'Growth',
+    primary: '#228b22',
+    border: '#155715',
     description:
-      'Green signals visible progress. Like a plant taking root, your techniques are developing shape, rhythm, and purpose.',
-    isMain: true,
+      'Green signals visible progress. Like a plant taking root and pushing upward, your techniques are developing shape, rhythm, and genuine power.',
   },
   {
-    color: '#1a4fc8',
-    border: '#0f2f80',
+    name: 'Green Black Belt',
+    meaning: 'Depth of Growth',
+    primary: '#228b22',
+    secondary: '#111111',
+    border: '#155715',
+    description:
+      'Green Black builds on everything learned at Green — sharper combinations, better footwork, and the beginnings of real ring awareness.',
+  },
+  {
     name: 'Blue Belt',
     meaning: 'Depth',
+    primary: '#1a4fc8',
+    border: '#0f2f80',
     description:
-      'Blue is the open sky. Your understanding deepens beyond individual techniques — you begin to see the game: distance, timing, combination.',
-    isMain: true,
+      'Blue is the open sky. Your understanding deepens beyond individual techniques. Distance, timing, combination, and defence start to work as one.',
   },
   {
-    color: '#8b4513',
-    border: '#5c2a00',
+    name: 'Blue Black Belt',
+    meaning: 'Clarity',
+    primary: '#1a4fc8',
+    secondary: '#111111',
+    border: '#0f2f80',
+    description:
+      'Blue Black is where things click. Movement becomes more natural and less deliberate — the body starts to remember what the mind has been teaching it.',
+  },
+  {
     name: 'Brown Belt',
     meaning: 'Harvest',
+    primary: '#8b4513',
+    border: '#5c2a00',
     description:
-      'Brown is the ripening of everything you\'ve planted. Years of training start to bear real fruit — your movement becomes instinct, not thought.',
-    isMain: true,
+      'Brown is the ripening of everything you\'ve planted. Years of training bear real fruit — your movement becomes instinct, not thought. The Black Belt is now within sight.',
   },
   {
-    color: '#cc0000',
-    border: '#880000',
+    name: 'Brown Black Belt',
+    meaning: 'Readiness',
+    primary: '#8b4513',
+    secondary: '#111111',
+    border: '#5c2a00',
+    description:
+      'Brown Black is a final proving ground. Technique, attitude, composure under pressure — everything is assessed before the step to Red.',
+  },
+  {
     name: 'Red Belt',
     meaning: 'Power & Responsibility',
+    primary: '#cc0000',
+    border: '#880000',
     description:
-      'Red is a signal of danger — a recognition that your skill now carries real force. Control, discipline, and respect are non-negotiable at this level.',
-    isMain: true,
+      'Red is a signal of danger. Your skill now carries real force. At Red Belt, control and discipline are non-negotiable — you are entering advanced territory.',
   },
-]
-
-const DANS = [
+  {
+    name: 'Red Black Belt',
+    meaning: 'The Final Step',
+    primary: '#cc0000',
+    secondary: '#111111',
+    border: '#880000',
+    description:
+      'Red Black is the last belt before Black. Everything is refined. Composure, power, technique, and character — all must be at the standard required of a Nine Dragons Black Belt.',
+  },
   {
     name: '1st Dan Black Belt',
-    label: '1st Dan',
-    description: 'Black absorbs all colours. Achieving your Black Belt is not the end — at Nine Dragons, it is the beginning of a deeper, lifelong pursuit. The first Dan marks mastery of the foundations.',
+    meaning: 'Mastery',
+    primary: '#111111',
+    border: '#c9a14a',
+    danLabel: '1st',
+    isDan: true,
+    description:
+      'Black absorbs all colours. Earning your Black Belt is not the end — at Nine Dragons it is a beginning. The first Dan marks mastery of the foundations and the start of a deeper pursuit.',
   },
   {
     name: '2nd Dan Black Belt',
-    label: '2nd Dan',
-    description: 'The second Dan brings with it a greater responsibility to the club, to newer students, and to the art itself. Teaching and mentoring become part of the path.',
+    meaning: 'Teaching',
+    primary: '#111111',
+    border: '#888888',
+    danLabel: '2nd',
+    isDan: true,
+    description:
+      'The second Dan carries a greater responsibility — to the club, to newer students, and to the art. Mentoring others becomes part of the path.',
   },
   {
     name: '3rd Dan Black Belt',
-    label: '3rd Dan',
-    description: 'The third Dan and beyond represent a lifetime of commitment. At this level the martial artist and the art are inseparable.',
+    meaning: 'Legacy',
+    primary: '#111111',
+    border: '#888888',
+    danLabel: '3rd',
+    isDan: true,
+    description:
+      'The third Dan and beyond represent a lifetime of commitment. At this level the martial artist and the art are inseparable.',
   },
 ]
 
 export default function BeltJourney() {
   return (
-    <section id="belts" className="py-24 px-5 md:px-16 max-w-5xl mx-auto">
-      {/* Eyebrow */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="mb-4"
-      >
-        <span className="eyebrow">09 ─── The Colours · Belt Progression</span>
-      </motion.div>
+    <div className="p-6 lg:p-10 max-w-3xl">
+      <h1 className="text-2xl font-bold text-foreground mb-2">Belt Progression</h1>
+      <p className="text-foreground/50 text-sm mb-10 leading-relaxed max-w-lg">
+        Every belt in the Nine Dragons system carries meaning. This is your full journey — from White to Black and beyond.
+      </p>
 
-      {/* Heading */}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7, delay: 0.1 }}
-        className="section-h2 mb-4"
-      >
-        What Each Belt Means
-      </motion.h2>
-
-      <motion.p
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="text-foreground/60 max-w-xl mb-16 leading-relaxed"
-      >
-        Every colour in our system carries meaning. Between each belt, a <strong className="text-foreground/80">Black Tag grading</strong> confirms you're ready to advance — a structured checkpoint before the next level is earned.
-      </motion.p>
-
-      {/* Belt progression */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         {BELTS.map((belt, i) => (
-          <div key={belt.name}>
-            {/* Main belt card */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
-              className="flex items-start gap-5 p-5 rounded-2xl bg-white/[0.03] border border-white/[0.07] hover:border-white/15 transition-colors"
-            >
-              {/* Belt swatch */}
-              <div className="flex-shrink-0 flex flex-col items-center gap-1 pt-0.5">
+          <motion.div
+            key={belt.name}
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.35, delay: i * 0.04 }}
+            className={`flex items-start gap-5 p-5 rounded-2xl border transition-colors
+              ${belt.isDan && belt.danLabel === '1st'
+                ? 'bg-gold/5 border-gold/25'
+                : 'bg-white/[0.03] border-white/[0.07]'}`}
+          >
+            {/* Belt visual */}
+            <div className="flex-shrink-0 pt-0.5">
+              {belt.secondary ? (
+                // Dual-colour belt (e.g. Purple Black)
+                <div className="flex rounded-full overflow-hidden w-10 h-10 border-2"
+                     style={{ borderColor: belt.border }}>
+                  <div className="flex-1" style={{ background: belt.primary }} />
+                  <div className="flex-1 bg-[#111]" />
+                </div>
+              ) : belt.isDan ? (
+                // Dan black belt with gold/numbered indicator
+                <div
+                  className="w-10 h-10 rounded-full border-2 bg-[#111] flex items-center justify-center"
+                  style={{
+                    borderColor: belt.border,
+                    boxShadow: belt.danLabel === '1st' ? '0 0 18px rgba(201,161,74,0.35)' : undefined,
+                  }}
+                >
+                  <span className="text-[9px] font-bold text-gold">{belt.danLabel}</span>
+                </div>
+              ) : (
+                // Single-colour belt
                 <div
                   className="w-10 h-10 rounded-full border-2"
                   style={{
-                    background: belt.color,
+                    background: belt.primary,
                     borderColor: belt.border,
-                    boxShadow: `0 0 14px ${belt.color}50`,
+                    boxShadow: `0 0 12px ${belt.primary}45`,
                   }}
                 />
-                <span className="text-[9px] text-foreground/30 tracking-wider uppercase">Belt</span>
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-baseline gap-3 flex-wrap mb-1">
-                  <h3 className="text-base font-bold text-foreground">{belt.name}</h3>
-                  <span className="text-xs font-medium tracking-widest uppercase"
-                        style={{ color: belt.color === '#ffffff' ? '#999' : belt.color }}>
-                    {belt.meaning}
-                  </span>
-                </div>
-                <p className="text-sm text-foreground/55 leading-relaxed">{belt.description}</p>
-              </div>
-            </motion.div>
-
-            {/* Black tag intermediate — shown between every main belt except after Red */}
-            {i < BELTS.length - 1 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 + 0.1 }}
-                className="flex items-center gap-4 px-5 py-2 ml-2"
-              >
-                {/* Tag swatch — split colour/black */}
-                <div className="flex-shrink-0 flex items-center gap-0.5">
-                  <div className="w-4 h-4 rounded-l-full border border-white/10"
-                       style={{ background: belt.color }} />
-                  <div className="w-4 h-4 rounded-r-full border border-white/10 bg-[#111]" />
-                </div>
-                <span className="text-[10px] tracking-[0.18em] uppercase text-foreground/30">
-                  {belt.name.replace(' Belt', '')} Black Tag
-                </span>
-                <div className="h-px flex-1 bg-white/5" />
-              </motion.div>
-            )}
-          </div>
-        ))}
-
-        {/* Red Black tag before Black Belt */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="flex items-center gap-4 px-5 py-2 ml-2"
-        >
-          <div className="flex-shrink-0 flex items-center gap-0.5">
-            <div className="w-4 h-4 rounded-l-full border border-white/10 bg-[#cc0000]" />
-            <div className="w-4 h-4 rounded-r-full border border-white/10 bg-[#111]" />
-          </div>
-          <span className="text-[10px] tracking-[0.18em] uppercase text-foreground/30">
-            Red Black Tag
-          </span>
-          <div className="h-px flex-1 bg-white/5" />
-        </motion.div>
-
-        {/* Black Belt Dans */}
-        {DANS.map((dan, i) => (
-          <motion.div
-            key={dan.name}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            className={`flex items-start gap-5 p-5 rounded-2xl border transition-colors
-              ${i === 0 ? 'bg-gold/5 border-gold/25' : 'bg-white/[0.02] border-white/[0.06]'}`}
-          >
-            {/* Black belt swatch with dan number */}
-            <div className="flex-shrink-0 flex flex-col items-center gap-1 pt-0.5">
-              <div
-                className="w-10 h-10 rounded-full border-2 border-[#444] bg-[#111] flex items-center justify-center"
-                style={{ boxShadow: i === 0 ? '0 0 20px rgba(201,161,74,0.3)' : '0 0 8px rgba(255,255,255,0.05)' }}
-              >
-                <span className="text-[9px] font-bold" style={{ color: '#c9a14a' }}>{i + 1}st</span>
-              </div>
-              <span className="text-[9px] text-foreground/30 tracking-wider uppercase">Dan</span>
+              )}
             </div>
 
+            {/* Text */}
             <div className="flex-1 min-w-0">
               <div className="flex items-baseline gap-3 flex-wrap mb-1">
-                <h3 className="text-base font-bold text-foreground">{dan.name}</h3>
-                {i === 0 && <span className="text-xs font-medium tracking-widest uppercase text-gold">Mastery</span>}
+                <h3 className="text-sm font-bold text-foreground">{belt.name}</h3>
+                <span
+                  className="text-[10px] font-semibold tracking-widest uppercase"
+                  style={{ color: belt.primary === '#ffffff' ? '#888' : belt.primary === '#111111' ? '#c9a14a' : belt.primary }}
+                >
+                  {belt.meaning}
+                </span>
               </div>
-              <p className="text-sm text-foreground/55 leading-relaxed">{dan.description}</p>
+              <p className="text-sm text-foreground/50 leading-relaxed">{belt.description}</p>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Medallion callout */}
+      {/* Medallion */}
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7, delay: 0.2 }}
-        className="mt-10 p-8 rounded-2xl border border-gold/30 bg-gold/5 text-center"
-        style={{ boxShadow: '0 0 60px rgba(201,161,74,0.08)' }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="mt-8 p-7 rounded-2xl border border-gold/30 bg-gold/5 text-center"
+        style={{ boxShadow: '0 0 50px rgba(201,161,74,0.07)' }}
       >
-        <div
-          className="w-16 h-16 rounded-full border-2 border-gold/50 bg-gold/10 flex items-center justify-center mx-auto mb-5"
-          style={{ boxShadow: '0 0 40px rgba(201,161,74,0.2)' }}
-        >
-          <span className="text-gold font-bold tracking-widest text-xs uppercase">Medal</span>
+        <div className="w-14 h-14 rounded-full border-2 border-gold/50 bg-gold/10 flex items-center justify-center mx-auto mb-4"
+             style={{ boxShadow: '0 0 30px rgba(201,161,74,0.2)' }}>
+          <span className="text-[10px] font-bold text-gold tracking-widest uppercase">Medal</span>
         </div>
-        <h3 className="text-xl font-bold text-gold mb-3">The Nine Dragons Medallion</h3>
-        <p className="text-foreground/60 text-sm leading-relaxed max-w-md mx-auto">
-          Students who complete every belt in the Nine Dragons system receive the club medallion — a permanent mark of their dedication, discipline, and commitment to the Kaizendo way.
+        <h3 className="text-lg font-bold text-gold mb-2">The Nine Dragons Medallion</h3>
+        <p className="text-foreground/55 text-sm leading-relaxed max-w-sm mx-auto">
+          Students who complete every belt in the Nine Dragons system receive the club medallion — a permanent mark of dedication, discipline, and the Kaizendo spirit of never-ending improvement.
         </p>
       </motion.div>
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="mt-6 text-center text-xs text-foreground/30"
-      >
-        Gradings take place regularly throughout the year — speak to Master Martin for your next date.
-      </motion.p>
-    </section>
+    </div>
   )
 }
