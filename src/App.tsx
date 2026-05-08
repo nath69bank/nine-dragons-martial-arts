@@ -17,6 +17,7 @@ import DragonDivider from '@/components/DragonDivider'
 
 // Auth
 import Login from '@/pages/Login'
+import AuthCallback from '@/pages/AuthCallback'
 import { ProtectedRoute, AdminRoute } from '@/components/ProtectedRoute'
 
 // Member portal
@@ -68,6 +69,7 @@ export default function App() {
         {/* Public */}
         <Route path="/" element={<PublicSite />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
 
         {/* Member portal */}
         <Route path="/member" element={<ProtectedRoute><MemberLayout /></ProtectedRoute>}>
