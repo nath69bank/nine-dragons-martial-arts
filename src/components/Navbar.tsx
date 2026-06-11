@@ -117,16 +117,16 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop CTA */}
-          <a
-            href="mailto:hello@ninedragonsmartialarts.co.uk?subject=Free Trial Request"
-            className="ml-2 hidden lg:flex items-center gap-2 rounded-full px-5 py-2 text-[11px] font-bold tracking-[0.18em] uppercase transition-all duration-200 hover:opacity-90 active:scale-95"
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-chatbot', { detail: { intent: 'free-trial' } }))}
+            className="ml-2 hidden lg:flex items-center gap-2 rounded-full px-5 py-2 text-[11px] font-bold tracking-[0.18em] uppercase transition-all duration-200 hover:opacity-90 active:scale-95 cursor-pointer"
             style={{
               background: 'linear-gradient(135deg, #c9a14a 0%, #e0c060 50%, #c9a14a 100%)',
               color: '#0a1020',
             }}
           >
             Free Trial
-          </a>
+          </button>
 
           {/* Mobile hamburger */}
           <button
@@ -191,10 +191,9 @@ export default function Navbar() {
                 transition={{ duration: 0.25, delay: 0.28 }}
                 className="mt-8 flex flex-col gap-3"
               >
-                <a
-                  href="mailto:hello@ninedragonsmartialarts.co.uk?subject=Free Trial Request"
-                  onClick={() => setMenuOpen(false)}
-                  className="block text-center py-4 rounded-full text-sm font-bold tracking-[0.18em] uppercase"
+                <button
+                  onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent('open-chatbot', { detail: { intent: 'free-trial' } })) }}
+                  className="block w-full text-center py-4 rounded-full text-sm font-bold tracking-[0.18em] uppercase cursor-pointer"
                   style={{
                     background: 'linear-gradient(135deg, #c9a14a 0%, #e0c060 50%, #c9a14a 100%)',
                     color: '#0a1020',
@@ -202,7 +201,7 @@ export default function Navbar() {
                   }}
                 >
                   Book Free Trial
-                </a>
+                </button>
                 <Link
                   to="/login"
                   onClick={() => setMenuOpen(false)}

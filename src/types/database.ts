@@ -61,6 +61,18 @@ export interface GradingHistory {
   to_belt?: Belt
 }
 
+export interface PublicSession {
+  id: string
+  title: string
+  description: string | null
+  video_url: string
+  thumbnail_url: string | null
+  category: string
+  is_published: boolean
+  display_order: number
+  created_at: string
+}
+
 // Supabase generic Database type (used by createClient)
 export type Database = {
   public: {
@@ -71,6 +83,7 @@ export type Database = {
       lessons:          { Row: Lesson;          Insert: Omit<Lesson, 'id' | 'created_at' | 'belt'>;     Update: Partial<Omit<Lesson, 'id' | 'created_at' | 'belt'>> }
       nutrition_guides: { Row: NutritionGuide;  Insert: Omit<NutritionGuide, 'id' | 'created_at'>;     Update: Partial<Omit<NutritionGuide, 'id' | 'created_at'>> }
       grading_history:  { Row: GradingHistory;  Insert: Omit<GradingHistory, 'id' | 'from_belt' | 'to_belt'>; Update: Partial<Omit<GradingHistory, 'id' | 'from_belt' | 'to_belt'>> }
+      public_sessions:  { Row: PublicSession;   Insert: Omit<PublicSession, 'id' | 'created_at'>;               Update: Partial<Omit<PublicSession, 'id' | 'created_at'>> }
     }
   }
 }

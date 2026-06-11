@@ -14,6 +14,8 @@ import JoinCTA from '@/components/JoinCTA'
 import Footer from '@/components/Footer'
 import ScrollJourney from '@/components/ScrollJourney'
 import DragonDivider from '@/components/DragonDivider'
+import VideoSessions from '@/components/VideoSessions'
+import LeadChatbot from '@/components/LeadChatbot'
 
 // Auth
 import Login from '@/pages/Login'
@@ -34,6 +36,7 @@ import AdminMembers from '@/pages/admin/AdminMembers'
 import AdminBelts from '@/pages/admin/AdminBelts'
 import AdminLessons from '@/pages/admin/AdminLessons'
 import AdminNutrition from '@/pages/admin/AdminNutrition'
+import AdminSessions from '@/pages/admin/AdminSessions'
 
 function PublicSite() {
   return (
@@ -52,6 +55,7 @@ function PublicSite() {
       <Schedule />
       <DragonDivider chapter={6} title="The Life" char="生" />
       <Gallery />
+      <VideoSessions />
       <DragonDivider chapter={7} title="The Warriors" char="戰" />
       <Testimonials />
       <DragonDivider chapter={8} title="Your Turn" char="起" />
@@ -64,6 +68,7 @@ function PublicSite() {
 export default function App() {
   return (
     <BrowserRouter>
+      <LeadChatbot />
       <Routes>
         {/* Public */}
         <Route path="/" element={<PublicSite />} />
@@ -85,6 +90,7 @@ export default function App() {
           <Route path="belts"     element={<AdminBelts />} />
           <Route path="lessons"   element={<AdminLessons />} />
           <Route path="nutrition" element={<AdminNutrition />} />
+          <Route path="sessions"  element={<AdminSessions />} />
         </Route>
       </Routes>
     </BrowserRouter>

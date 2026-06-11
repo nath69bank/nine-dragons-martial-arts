@@ -112,9 +112,9 @@ export default function Hero() {
           transition={{ duration: 0.65, delay: 1.02 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none"
         >
-          <a
-            href="mailto:hello@ninedragonsmartialarts.co.uk?subject=Free Trial Request"
-            className="w-full sm:w-auto text-center px-8 py-4 sm:py-3.5 rounded-full text-sm font-bold tracking-[0.18em] uppercase transition-opacity hover:opacity-88 active:scale-95 touch-target"
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-chatbot', { detail: { intent: 'free-trial' } }))}
+            className="w-full sm:w-auto text-center px-8 py-4 sm:py-3.5 rounded-full text-sm font-bold tracking-[0.18em] uppercase transition-opacity hover:opacity-88 active:scale-95 touch-target cursor-pointer"
             style={{
               background: 'linear-gradient(135deg, #c9a14a 0%, #e0c060 50%, #c9a14a 100%)',
               color: '#0a1020',
@@ -122,7 +122,7 @@ export default function Hero() {
             }}
           >
             Book Free Trial
-          </a>
+          </button>
           <a
             href="#disciplines"
             className="text-sm font-medium transition-colors touch-target flex items-center justify-center"

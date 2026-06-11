@@ -135,9 +135,9 @@ export default function JoinCTA() {
           transition={{ duration: 0.6, delay: 0.24 }}
           className="flex flex-col sm:flex-row items-center gap-4"
         >
-          <a
-            href="mailto:hello@ninedragonsmartialarts.co.uk?subject=Free Trial Request"
-            className="px-8 py-3.5 rounded-full text-sm font-bold tracking-[0.18em] uppercase transition-opacity hover:opacity-90"
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-chatbot', { detail: { intent: 'free-trial' } }))}
+            className="px-8 py-3.5 rounded-full text-sm font-bold tracking-[0.18em] uppercase transition-opacity hover:opacity-90 cursor-pointer"
             style={{
               background: 'linear-gradient(135deg, #c9a14a 0%, #e0c060 50%, #c9a14a 100%)',
               color: '#0a1020',
@@ -145,7 +145,7 @@ export default function JoinCTA() {
             }}
           >
             Book Free Trial
-          </a>
+          </button>
           <a
             href="#disciplines"
             className="liquid-glass rounded-full px-8 py-3.5 text-sm font-medium text-foreground"

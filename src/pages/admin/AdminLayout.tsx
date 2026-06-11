@@ -1,13 +1,14 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
-import { Users, Award, BookOpen, Apple, LayoutDashboard, LogOut, ChevronLeft } from 'lucide-react'
+import { Users, Award, BookOpen, Apple, LayoutDashboard, LogOut, ChevronLeft, Video } from 'lucide-react'
 
 const nav = [
   { to: '/admin',           label: 'Overview',   icon: LayoutDashboard, end: true },
   { to: '/admin/members',   label: 'Members',    icon: Users },
   { to: '/admin/belts',     label: 'Belts',      icon: Award },
   { to: '/admin/lessons',   label: 'Lessons',    icon: BookOpen },
-  { to: '/admin/nutrition', label: 'Nutrition',   icon: Apple },
+  { to: '/admin/nutrition', label: 'Nutrition',  icon: Apple },
+  { to: '/admin/sessions',  label: 'Sessions',   icon: Video },
 ]
 
 export default function AdminLayout() {
