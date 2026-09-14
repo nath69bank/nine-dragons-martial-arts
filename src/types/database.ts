@@ -73,6 +73,42 @@ export interface PublicSession {
   created_at: string
 }
 
+export interface NewsPostAuthor {
+  full_name: string | null
+  email: string | null
+  is_admin: boolean
+  belt?: Pick<Belt, 'name' | 'color_hex'> | null
+}
+
+export interface NewsComment {
+  id: string
+  post_id: string
+  author_id: string
+  content: string
+  created_at: string
+  author?: NewsPostAuthor
+}
+
+export interface NewsLike {
+  post_id: string
+  profile_id: string
+  created_at: string
+}
+
+export interface NewsPost {
+  id: string
+  author_id: string | null
+  content: string
+  image_url: string | null
+  is_pinned: boolean
+  is_published: boolean
+  created_at: string
+  updated_at: string
+  author?: NewsPostAuthor
+  news_comments?: NewsComment[]
+  news_likes?: { profile_id: string }[]
+}
+
 // Supabase generic Database type (used by createClient)
 export type Database = {
   public: {
@@ -84,6 +120,9 @@ export type Database = {
       nutrition_guides: { Row: NutritionGuide;  Insert: Omit<NutritionGuide, 'id' | 'created_at'>;     Update: Partial<Omit<NutritionGuide, 'id' | 'created_at'>> }
       grading_history:  { Row: GradingHistory;  Insert: Omit<GradingHistory, 'id' | 'from_belt' | 'to_belt'>; Update: Partial<Omit<GradingHistory, 'id' | 'from_belt' | 'to_belt'>> }
       public_sessions:  { Row: PublicSession;   Insert: Omit<PublicSession, 'id' | 'created_at'>;               Update: Partial<Omit<PublicSession, 'id' | 'created_at'>> }
+      news_posts:       { Row: NewsPost;        Insert: Omit<NewsPost, 'id' | 'created_at' | 'updated_at' | 'author' | 'news_comments' | 'news_likes'>; Update: Partial<Omit<NewsPost, 'id' | 'created_at' | 'updated_at' | 'author' | 'news_comments' | 'news_likes'>> }
+      news_comments:    { Row: NewsComment;     Insert: Omit<NewsComment, 'id' | 'created_at' | 'author'>;      Update: Partial<Omit<NewsComment, 'id' | 'created_at' | 'author'>> }
+      news_likes:       { Row: NewsLike;        Insert: Omit<NewsLike, 'created_at'>;                           Update: Partial<Omit<NewsLike, 'created_at'>> }
     }
   }
 }

@@ -7,3 +7,8 @@ Sitemap: https://ninedragonsmartialarts.co.uk/sitemap.xml
 Disallow: /dist/
 Disallow: /node_modules/
 Disallow: /.env
+
+# Private, login-gated areas — no public content to index
+Disallow: /login
+Disallow: /member
+Disallow: /admin

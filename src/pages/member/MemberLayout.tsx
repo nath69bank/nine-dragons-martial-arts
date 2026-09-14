@@ -1,9 +1,11 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
-import { LayoutDashboard, BookOpen, Apple, Award, LogOut, ShieldCheck, Shield } from 'lucide-react'
+import { useNoIndex } from '@/hooks/useNoIndex'
+import { LayoutDashboard, BookOpen, Apple, Award, LogOut, ShieldCheck, Shield, Newspaper } from 'lucide-react'
 
 const nav = [
   { to: '/member',          label: 'Dashboard',  icon: LayoutDashboard, end: true },
+  { to: '/member/feed',     label: 'News Feed',   icon: Newspaper },
   { to: '/member/lessons',  label: 'Lessons',    icon: BookOpen },
   { to: '/member/nutrition',label: 'Nutrition',   icon: Apple },
   { to: '/member/gradings', label: 'Gradings',    icon: Award },
@@ -11,6 +13,7 @@ const nav = [
 ]
 
 export default function MemberLayout() {
+  useNoIndex()
   const { profile, signOut, isAdmin } = useAuth()
   const navigate = useNavigate()
 

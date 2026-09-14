@@ -28,6 +28,7 @@ import MemberLessons from '@/pages/member/MemberLessons'
 import MemberNutrition from '@/pages/member/MemberNutrition'
 import MemberGradings from '@/pages/member/MemberGradings'
 import MemberBelts from '@/pages/member/MemberBelts'
+import MemberFeed from '@/pages/member/MemberFeed'
 
 // Admin panel
 import AdminLayout from '@/pages/admin/AdminLayout'
@@ -37,6 +38,7 @@ import AdminBelts from '@/pages/admin/AdminBelts'
 import AdminLessons from '@/pages/admin/AdminLessons'
 import AdminNutrition from '@/pages/admin/AdminNutrition'
 import AdminSessions from '@/pages/admin/AdminSessions'
+import AdminFeed from '@/pages/admin/AdminFeed'
 
 function PublicSite() {
   return (
@@ -77,6 +79,7 @@ export default function App() {
         {/* Member portal */}
         <Route path="/member" element={<ProtectedRoute><MemberLayout /></ProtectedRoute>}>
           <Route index element={<MemberDashboard />} />
+          <Route path="feed"      element={<MemberFeed />} />
           <Route path="lessons"   element={<MemberLessons />} />
           <Route path="nutrition" element={<MemberNutrition />} />
           <Route path="gradings"  element={<MemberGradings />} />
@@ -91,6 +94,7 @@ export default function App() {
           <Route path="lessons"   element={<AdminLessons />} />
           <Route path="nutrition" element={<AdminNutrition />} />
           <Route path="sessions"  element={<AdminSessions />} />
+          <Route path="feed"      element={<AdminFeed />} />
         </Route>
       </Routes>
     </BrowserRouter>

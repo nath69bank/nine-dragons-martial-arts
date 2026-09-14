@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
+import { useNoIndex } from '@/hooks/useNoIndex'
 import { Lock, MessageCircle } from 'lucide-react'
 
 export default function Login() {
+  useNoIndex()
   const { signIn }           = useAuth()
   const navigate             = useNavigate()
   const [params]             = useSearchParams()
