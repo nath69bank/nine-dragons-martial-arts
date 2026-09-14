@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 // Public site — eager, this is the critical homepage path
 import Navbar from '@/components/Navbar'
@@ -54,6 +54,13 @@ function RouteFallback() {
   )
 }
 
+/** The lead-capture widget is for prospective members on the public site — hide it inside the logged-in portals. */
+function PublicOnlyChatbot() {
+  const { pathname } = useLocation()
+  if (pathname.startsWith('/member') || pathname.startsWith('/admin')) return null
+  return <LeadChatbot />
+}
+
 function PublicSite() {
   return (
     <main className="bg-background text-foreground">
@@ -84,7 +91,7 @@ function PublicSite() {
 export default function App() {
   return (
     <BrowserRouter>
-      <LeadChatbot />
+      <PublicOnlyChatbot />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           {/* Public */}
