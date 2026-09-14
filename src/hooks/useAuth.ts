@@ -4,9 +4,10 @@ import { supabase } from '@/lib/supabase'
 import type { Profile } from '@/types/database'
 
 export function useAuth() {
-  const [user, setUser]       = useState<User | null>(null)
-  const [profile, setProfile] = useState<Profile | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser]             = useState<User | null>(null)
+  const [profile, setProfile]       = useState<Profile | null>(null)
+  const [profileError, setProfileError] = useState<string | null>(null)
+  const [loading, setLoading]       = useState(true)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -25,11 +26,18 @@ export function useAuth() {
   }, [])
 
   async function fetchProfile(id: string) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('profiles')
       .select('*, belt:belts(*)')
       .eq('id', id)
       .single()
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error('[useAuth] Could not load profile for', id, error)
+      setProfileError(error.message)
+    } else {
+      setProfileError(null)
+    }
     setProfile(data)
     setLoading(false)
   }
@@ -42,5 +50,5 @@ export function useAuth() {
     return supabase.auth.signOut()
   }
 
-  return { user, profile, loading, signIn, signOut, isAdmin: profile?.is_admin ?? false }
+  return { user, profile, profileError, loading, signIn, signOut, isAdmin: profile?.is_admin ?? false }
 }
