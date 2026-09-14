@@ -78,7 +78,7 @@ export default function AdminFeed() {
           folder="news"
           placeholder="Image URL (optional) or upload a photo"
         />
-        <div className="flex gap-6">
+        <div className="flex flex-wrap gap-x-6 gap-y-3">
           <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground/70">
             <input type="checkbox" checked={editing.is_pinned} onChange={e => setEditing({ ...editing, is_pinned: e.target.checked })} className="accent-gold" />
             Pin to top

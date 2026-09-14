@@ -1,4 +1,4 @@
-import { Navigate, Link } from 'react-router-dom'
+import { Navigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { Clock, Ban } from 'lucide-react'
 
@@ -36,6 +36,7 @@ function StatusGate({ icon: Icon, title, message, color }: {
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, profile, loading } = useAuth()
+  const location = useLocation()
 
   if (loading) return (
     <div className="min-h-screen bg-background flex items-center justify-center text-gold text-sm">
@@ -43,7 +44,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
     </div>
   )
 
-  if (!user) return <Navigate to="/login" replace />
+  if (!user) return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} replace />
 
   if (profile?.status === 'inactive') return (
     <StatusGate

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/hooks/useAuth'
 import type { Notification } from '@/types/database'
-import { Bell } from 'lucide-react'
+import { Bell, BellRing } from 'lucide-react'
 
 function timeAgo(iso: string) {
   const seconds = Math.floor((Date.now() - new Date(iso).getTime()) / 1000)
@@ -21,6 +21,9 @@ export default function NotificationBell() {
   const navigate = useNavigate()
   const [items, setItems] = useState<Notification[]>([])
   const [open, setOpen]   = useState(false)
+  const [permission, setPermission] = useState<NotificationPermission | 'unsupported'>(
+    typeof window !== 'undefined' && 'Notification' in window ? Notification.permission : 'unsupported'
+  )
   const ref = useRef<HTMLDivElement>(null)
 
   async function load(profileId: string) {
@@ -42,7 +45,16 @@ export default function NotificationBell() {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'notifications', filter: `profile_id=eq.${profile.id}` },
-        () => load(profile.id)
+        (payload) => {
+          load(profile.id)
+          const row = payload.new as Notification
+          // A live system notification while the tab is open — a lighter alternative to full
+          // background push, which would need a service worker, VAPID keys, and a DB webhook.
+          if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+            const n = new window.Notification(row.title, { body: row.body ?? undefined, icon: '/logo.jpeg' })
+            if (row.link) n.onclick = () => { window.focus(); navigate(row.link!) }
+          }
+        }
       )
       .subscribe()
 
@@ -60,6 +72,12 @@ export default function NotificationBell() {
   if (!profile) return null
 
   const unread = items.filter(i => !i.is_read).length
+
+  async function enableNotifications() {
+    if (!('Notification' in window)) return
+    const result = await window.Notification.requestPermission()
+    setPermission(result)
+  }
 
   async function markAllRead() {
     if (!profile) return
@@ -81,7 +99,7 @@ export default function NotificationBell() {
         className="relative p-2 rounded-lg text-foreground/50 hover:text-foreground hover:bg-white/5 transition-colors"
         aria-label="Notifications"
       >
-        <Bell size={18} />
+        {permission === 'granted' ? <BellRing size={18} /> : <Bell size={18} />}
         {unread > 0 && (
           <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-gold text-background text-[10px] font-bold flex items-center justify-center">
             {unread > 9 ? '9+' : unread}
@@ -97,6 +115,14 @@ export default function NotificationBell() {
               <button onClick={markAllRead} className="text-xs text-gold hover:underline">Mark all read</button>
             )}
           </div>
+          {permission === 'default' && (
+            <button
+              onClick={enableNotifications}
+              className="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-gold bg-gold/5 hover:bg-gold/10 border-b border-white/10 transition-colors"
+            >
+              <BellRing size={13} /> Turn on notifications for this device
+            </button>
+          )}
           <div className="max-h-96 overflow-y-auto">
             {items.length === 0 && <p className="p-4 text-sm text-foreground/40">You're all caught up.</p>}
             {items.map(n => (

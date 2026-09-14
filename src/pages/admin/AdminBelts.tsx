@@ -130,9 +130,9 @@ export default function AdminBelts() {
           <div key={belt.id} className="rounded-xl border border-white/10 bg-white/5 overflow-hidden">
             {editing?.id === belt.id ? (
               <div className="p-5 space-y-3">
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3">
                   <input value={editing.name} onChange={e => setEditing({ ...editing, name: e.target.value })}
-                    className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-foreground text-sm focus:outline-none focus:border-gold/50" />
+                    className="flex-1 min-w-[140px] bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-foreground text-sm focus:outline-none focus:border-gold/50" />
                   <input type="color" value={editing.color_hex} onChange={e => setEditing({ ...editing, color_hex: e.target.value })}
                     className="h-9 w-14 rounded cursor-pointer bg-transparent" />
                   <input type="number" value={editing.order_index} onChange={e => setEditing({ ...editing, order_index: Number(e.target.value) })}

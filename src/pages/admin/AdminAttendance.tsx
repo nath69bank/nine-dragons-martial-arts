@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
+import QRCode from 'qrcode'
 import { supabase } from '@/lib/supabase'
 import type { Profile, Attendance } from '@/types/database'
-import { Check, CalendarDays } from 'lucide-react'
+import { Check, CalendarDays, QrCode, X } from 'lucide-react'
 
 const CLASS_OPTIONS = [
   'Dragon Cubs (5–7)',
@@ -24,6 +25,8 @@ export default function AdminAttendance() {
   const [recent, setRecent]         = useState<Attendance[]>([])
   const [loading, setLoading]       = useState(true)
   const [saving, setSaving]         = useState<string | null>(null)
+  const [showQr, setShowQr]         = useState(false)
+  const [qrDataUrl, setQrDataUrl]   = useState('')
 
   async function loadMembers() {
     const { data } = await supabase.from('profiles').select('*, belt:belts(*)').eq('status', 'active').order('full_name')
@@ -47,6 +50,13 @@ export default function AdminAttendance() {
 
   useEffect(() => { loadMembers().then(() => setLoading(false)); loadRecent() }, [])
   useEffect(() => { loadAttendanceForDate() }, [date, classLabel])
+
+  useEffect(() => {
+    if (!showQr) return
+    const checkinUrl = `${window.location.origin}/member/checkin?class=${encodeURIComponent(classLabel)}&date=${date}`
+    QRCode.toDataURL(checkinUrl, { width: 280, margin: 1, color: { dark: '#0a1020', light: '#f5efe0' } })
+      .then(setQrDataUrl)
+  }, [showQr, date, classLabel])
 
   async function toggle(profileId: string) {
     setSaving(profileId)
@@ -82,10 +92,34 @@ export default function AdminAttendance() {
         >
           {CLASS_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
+        <button
+          onClick={() => setShowQr(s => !s)}
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors
+            ${showQr ? 'bg-gold text-background' : 'bg-white/5 text-foreground/60 hover:bg-white/10'}`}
+        >
+          <QrCode size={14} /> Check-in QR
+        </button>
         <span className="flex items-center gap-1.5 text-sm text-foreground/40 ml-auto">
           <CalendarDays size={14} /> {present.size} / {members.length} present
         </span>
       </div>
+
+      {showQr && (
+        <div className="mb-8 p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center text-center">
+          <div className="flex items-center justify-between w-full mb-4">
+            <p className="text-sm font-semibold text-foreground">Scan to check in — {classLabel}</p>
+            <button onClick={() => setShowQr(false)} className="p-1 rounded text-foreground/40 hover:text-foreground"><X size={16} /></button>
+          </div>
+          {qrDataUrl ? (
+            <img src={qrDataUrl} alt={`Check-in QR code for ${classLabel} on ${date}`} className="rounded-xl w-[220px] h-[220px]" />
+          ) : (
+            <div className="w-[220px] h-[220px] flex items-center justify-center text-foreground/30 text-xs">Generating…</div>
+          )}
+          <p className="mt-4 text-xs text-foreground/40 max-w-xs">
+            Display this on a screen or print it — members scan with their phone, log in if needed, and are marked present instantly. Only works for today's date.
+          </p>
+        </div>
+      )}
 
       <div className="rounded-2xl border border-white/10 divide-y divide-white/5 mb-10">
         {members.map(m => {

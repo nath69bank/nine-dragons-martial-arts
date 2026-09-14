@@ -23,7 +23,9 @@ export default function Login() {
     setLoading(true)
     const { error } = await signIn(email, password)
     if (error) { setError(error.message); setLoading(false); return }
-    navigate('/member')
+    const redirect = params.get('redirect')
+    // Only ever follow a same-site relative path — never an absolute or protocol-relative URL.
+    navigate(redirect && redirect.startsWith('/') && !redirect.startsWith('//') ? redirect : '/member')
   }
 
   function openChatbot() {

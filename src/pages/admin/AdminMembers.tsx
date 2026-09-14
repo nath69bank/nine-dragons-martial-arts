@@ -222,8 +222,8 @@ export default function AdminMembers() {
       {filtered.length === 0 ? (
         <p className="text-foreground/40 text-sm py-4">No members in this category.</p>
       ) : (
-        <div className="rounded-2xl border border-white/10 overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="rounded-2xl border border-white/10 overflow-x-auto">
+          <table className="w-full text-sm min-w-[480px]">
             <thead className="bg-white/5 text-foreground/40 text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-4 py-3 text-left">Name</th>

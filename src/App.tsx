@@ -34,6 +34,7 @@ const MemberGradings   = lazy(() => import('@/pages/member/MemberGradings'))
 const MemberBelts      = lazy(() => import('@/pages/member/MemberBelts'))
 const MemberFeed       = lazy(() => import('@/pages/member/MemberFeed'))
 const MemberAttendance = lazy(() => import('@/pages/member/MemberAttendance'))
+const MemberCheckIn    = lazy(() => import('@/pages/member/MemberCheckIn'))
 
 const AdminLayout     = lazy(() => import('@/pages/admin/AdminLayout'))
 const AdminOverview   = lazy(() => import('@/pages/admin/AdminOverview'))
@@ -105,6 +106,7 @@ export default function App() {
             <Route index element={<MemberDashboard />} />
             <Route path="feed"       element={<MemberFeed />} />
             <Route path="attendance" element={<MemberAttendance />} />
+            <Route path="checkin"    element={<MemberCheckIn />} />
             <Route path="lessons"    element={<MemberLessons />} />
             <Route path="nutrition"  element={<MemberNutrition />} />
             <Route path="gradings"   element={<MemberGradings />} />
