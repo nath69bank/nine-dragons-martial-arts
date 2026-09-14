@@ -35,8 +35,14 @@ export default function AdminLayout() {
             <p className="text-xs text-foreground/40">Admin Panel</p>
             <p className="text-sm font-semibold text-gold">Nine Dragons</p>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-1">
             <NotificationBell />
+            <NavLink to="/member" className="lg:hidden p-2 rounded-lg text-foreground/50 hover:text-foreground hover:bg-white/5 transition-colors" aria-label="Member portal">
+              <ChevronLeft size={18} />
+            </NavLink>
+            <button onClick={handleSignOut} className="lg:hidden p-2 rounded-lg text-foreground/50 hover:text-foreground hover:bg-white/5 transition-colors" aria-label="Sign out">
+              <LogOut size={18} />
+            </button>
           </div>
         </div>
 

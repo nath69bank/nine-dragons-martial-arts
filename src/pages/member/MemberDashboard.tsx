@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase'
 import type { GradingHistory, Lesson, NutritionGuide, NewsPost, Attendance } from '@/types/database'
 import { BookOpen, Apple, Award, ChevronRight, Newspaper, Heart, MessageCircle, CalendarCheck, AlertCircle } from 'lucide-react'
 import { computeStreak } from '@/pages/member/MemberAttendance'
+import DojoCoach from '@/components/DojoCoach'
 
 export default function MemberDashboard() {
   const { profile } = useAuth()
@@ -14,6 +15,8 @@ export default function MemberDashboard() {
   const [posts, setPosts]           = useState<NewsPost[]>([])
   const [attendance, setAttendance] = useState<Attendance[]>([])
   const [maxBeltOrder, setMaxBeltOrder] = useState<number | null>(null)
+  const [lessonsTotal, setLessonsTotal]         = useState(0)
+  const [lessonsCompleted, setLessonsCompleted] = useState(0)
 
   useEffect(() => {
     if (!profile) return
@@ -64,6 +67,18 @@ export default function MemberDashboard() {
       .order('order_index', { ascending: false })
       .limit(1)
       .then(({ data }) => setMaxBeltOrder(data?.[0]?.order_index ?? null))
+
+    supabase
+      .from('lessons')
+      .select('id', { count: 'exact', head: true })
+      .eq('is_published', true)
+      .then(({ count }) => setLessonsTotal(count ?? 0))
+
+    supabase
+      .from('lesson_progress')
+      .select('id', { count: 'exact', head: true })
+      .eq('profile_id', profile.id)
+      .then(({ count }) => setLessonsCompleted(count ?? 0))
   }, [profile])
 
   const uniqueClassDates = Array.from(new Set(attendance.map(a => a.class_date)))
@@ -128,6 +143,16 @@ export default function MemberDashboard() {
           </Link>
         ))}
       </div>
+
+      <DojoCoach
+        profile={profile}
+        streak={streak}
+        gradingOverdue={gradingOverdue}
+        lessonsTotal={lessonsTotal}
+        lessonsCompleted={lessonsCompleted}
+        nutritionCount={nutrition.length}
+        postsCount={posts.length}
+      />
 
       {/* Latest from the news feed */}
       {posts.length > 0 && (

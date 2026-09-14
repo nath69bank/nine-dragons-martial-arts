@@ -1,7 +1,54 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
-import type { Lesson, Belt } from '@/types/database'
-import { Plus, Pencil, Trash2, Check, X, Eye, EyeOff } from 'lucide-react'
+import type { Lesson, Belt, QuizQuestion } from '@/types/database'
+import { Plus, Pencil, Trash2, Eye, EyeOff, HelpCircle } from 'lucide-react'
+
+function QuizEditor({ quiz, onChange }: { quiz: QuizQuestion[]; onChange: (q: QuizQuestion[]) => void }) {
+  function addQuestion() {
+    onChange([...quiz, { question: '', options: ['', '', '', ''], correct: 0 }])
+  }
+  function updateQuestion(i: number, patch: Partial<QuizQuestion>) {
+    onChange(quiz.map((q, idx) => (idx === i ? { ...q, ...patch } : q)))
+  }
+  function updateOption(qi: number, oi: number, value: string) {
+    updateQuestion(qi, { options: quiz[qi].options.map((o, idx) => (idx === oi ? value : o)) })
+  }
+  function removeQuestion(i: number) {
+    onChange(quiz.filter((_, idx) => idx !== i))
+  }
+
+  return (
+    <div className="space-y-3">
+      {quiz.map((q, qi) => (
+        <div key={qi} className="p-4 rounded-lg bg-white/5 border border-white/10 space-y-2">
+          <div className="flex items-center gap-2">
+            <input
+              value={q.question}
+              onChange={e => updateQuestion(qi, { question: e.target.value })}
+              placeholder={`Question ${qi + 1}`}
+              className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-foreground text-sm focus:outline-none focus:border-gold/50"
+            />
+            <button onClick={() => removeQuestion(qi)} className="p-1.5 rounded text-foreground/40 hover:text-red-400 flex-shrink-0"><Trash2 size={14} /></button>
+          </div>
+          <div className="space-y-1.5 pl-1">
+            {q.options.map((opt, oi) => (
+              <label key={oi} className="flex items-center gap-2 cursor-pointer">
+                <input type="radio" checked={q.correct === oi} onChange={() => updateQuestion(qi, { correct: oi })} className="accent-gold flex-shrink-0" />
+                <input
+                  value={opt}
+                  onChange={e => updateOption(qi, oi, e.target.value)}
+                  placeholder={`Option ${oi + 1}${oi === 0 ? ' (mark the correct one)' : ''}`}
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-foreground text-xs focus:outline-none focus:border-gold/50"
+                />
+              </label>
+            ))}
+          </div>
+        </div>
+      ))}
+      <button onClick={addQuestion} className="text-xs text-gold hover:underline">+ Add question</button>
+    </div>
+  )
+}
 
 export default function AdminLessons() {
   const [lessons, setLessons] = useState<Lesson[]>([])
@@ -11,7 +58,7 @@ export default function AdminLessons() {
   const [isNew, setIsNew]     = useState(false)
   const [saving, setSaving]   = useState(false)
 
-  const blank: Lesson = { id: '', title: '', description: '', content: '', video_url: '', belt_id: null, is_published: false, created_at: '' }
+  const blank: Lesson = { id: '', title: '', description: '', content: '', video_url: '', belt_id: null, is_published: false, quiz: null, created_at: '' }
 
   async function load() {
     const [{ data: l }, { data: b }] = await Promise.all([
@@ -35,6 +82,7 @@ export default function AdminLessons() {
       video_url:   editing.video_url,
       belt_id:     editing.belt_id,
       is_published:editing.is_published,
+      quiz:        editing.quiz && editing.quiz.length > 0 ? editing.quiz : null,
     }
     if (isNew) await supabase.from('lessons').insert(payload)
     else        await supabase.from('lessons').update(payload).eq('id', editing.id)
@@ -78,6 +126,14 @@ export default function AdminLessons() {
           <input type="checkbox" checked={editing.is_published} onChange={e => setEditing({ ...editing, is_published: e.target.checked })} className="accent-gold" />
           <span className="text-sm text-foreground/70">Published (visible to members)</span>
         </label>
+
+        <div className="pt-2 border-t border-white/10">
+          <div className="flex items-center gap-2 mb-3 mt-4">
+            <HelpCircle size={15} className="text-gold" />
+            <p className="text-sm font-semibold text-foreground">Quiz <span className="text-foreground/40 font-normal">(optional)</span></p>
+          </div>
+          <QuizEditor quiz={editing.quiz ?? []} onChange={quiz => setEditing({ ...editing, quiz })} />
+        </div>
       </div>
       <div className="flex gap-3 mt-6">
         <button onClick={() => setEditing(null)} className="flex-1 py-2 rounded-lg border border-white/10 text-sm text-foreground/60">Cancel</button>

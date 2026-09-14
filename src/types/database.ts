@@ -30,6 +30,12 @@ export interface Profile {
   belt?: Belt
 }
 
+export interface QuizQuestion {
+  question: string
+  options: string[]
+  correct: number
+}
+
 export interface Lesson {
   id: string
   title: string
@@ -38,8 +44,18 @@ export interface Lesson {
   video_url: string | null
   belt_id: string | null
   is_published: boolean
+  quiz: QuizQuestion[] | null
   created_at: string
   belt?: Belt
+}
+
+export interface LessonProgress {
+  id: string
+  profile_id: string
+  lesson_id: string
+  completed_at: string
+  quiz_score: number | null
+  quiz_total: number | null
 }
 
 export interface NutritionGuide {
@@ -165,6 +181,7 @@ export type Database = {
       attendance:       { Row: Attendance;      Insert: Omit<Attendance, 'id' | 'created_at' | 'profile'>;      Update: Partial<Omit<Attendance, 'id' | 'created_at' | 'profile'>> }
       notifications:    { Row: Notification;    Insert: Omit<Notification, 'id' | 'created_at'>;                Update: Partial<Omit<Notification, 'id' | 'created_at'>> }
       blog_posts:       { Row: BlogPost;        Insert: Omit<BlogPost, 'id' | 'created_at' | 'updated_at' | 'author'>; Update: Partial<Omit<BlogPost, 'id' | 'created_at' | 'updated_at' | 'author'>> }
+      lesson_progress:  { Row: LessonProgress;  Insert: Omit<LessonProgress, 'id' | 'completed_at'>;             Update: Partial<Omit<LessonProgress, 'id' | 'completed_at'>> }
     }
   }
 }

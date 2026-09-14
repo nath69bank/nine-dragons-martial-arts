@@ -35,8 +35,16 @@ export default function MemberLayout() {
             <p className="text-xs text-foreground/40 leading-none">Members Portal</p>
             <p className="text-sm font-semibold text-gold mt-0.5 leading-none">Nine Dragons</p>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-1">
             <NotificationBell />
+            {isAdmin && (
+              <NavLink to="/admin" className="lg:hidden p-2 rounded-lg text-royal hover:bg-white/5 transition-colors" aria-label="Admin panel">
+                <ShieldCheck size={18} />
+              </NavLink>
+            )}
+            <button onClick={handleSignOut} className="lg:hidden p-2 rounded-lg text-foreground/50 hover:text-foreground hover:bg-white/5 transition-colors" aria-label="Sign out">
+              <LogOut size={18} />
+            </button>
           </div>
         </div>
 
