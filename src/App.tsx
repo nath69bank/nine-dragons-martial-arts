@@ -1,6 +1,7 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-// Public site
+// Public site — eager, this is the critical homepage path
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import WhyItMatters from '@/components/WhyItMatters'
@@ -16,29 +17,42 @@ import ScrollJourney from '@/components/ScrollJourney'
 import DragonDivider from '@/components/DragonDivider'
 import VideoSessions from '@/components/VideoSessions'
 import LeadChatbot from '@/components/LeadChatbot'
-
-// Auth
-import Login from '@/pages/Login'
 import { ProtectedRoute, AdminRoute } from '@/components/ProtectedRoute'
 
-// Member portal
-import MemberLayout from '@/pages/member/MemberLayout'
-import MemberDashboard from '@/pages/member/MemberDashboard'
-import MemberLessons from '@/pages/member/MemberLessons'
-import MemberNutrition from '@/pages/member/MemberNutrition'
-import MemberGradings from '@/pages/member/MemberGradings'
-import MemberBelts from '@/pages/member/MemberBelts'
-import MemberFeed from '@/pages/member/MemberFeed'
+// Everything below is behind a route a visitor may never take — split it out
+// of the main bundle so the public homepage stays fast.
+const Login = lazy(() => import('@/pages/Login'))
 
-// Admin panel
-import AdminLayout from '@/pages/admin/AdminLayout'
-import AdminOverview from '@/pages/admin/AdminOverview'
-import AdminMembers from '@/pages/admin/AdminMembers'
-import AdminBelts from '@/pages/admin/AdminBelts'
-import AdminLessons from '@/pages/admin/AdminLessons'
-import AdminNutrition from '@/pages/admin/AdminNutrition'
-import AdminSessions from '@/pages/admin/AdminSessions'
-import AdminFeed from '@/pages/admin/AdminFeed'
+const Blog     = lazy(() => import('@/pages/Blog'))
+const BlogPost = lazy(() => import('@/pages/BlogPost'))
+
+const MemberLayout     = lazy(() => import('@/pages/member/MemberLayout'))
+const MemberDashboard  = lazy(() => import('@/pages/member/MemberDashboard'))
+const MemberLessons    = lazy(() => import('@/pages/member/MemberLessons'))
+const MemberNutrition  = lazy(() => import('@/pages/member/MemberNutrition'))
+const MemberGradings   = lazy(() => import('@/pages/member/MemberGradings'))
+const MemberBelts      = lazy(() => import('@/pages/member/MemberBelts'))
+const MemberFeed       = lazy(() => import('@/pages/member/MemberFeed'))
+const MemberAttendance = lazy(() => import('@/pages/member/MemberAttendance'))
+
+const AdminLayout     = lazy(() => import('@/pages/admin/AdminLayout'))
+const AdminOverview   = lazy(() => import('@/pages/admin/AdminOverview'))
+const AdminMembers    = lazy(() => import('@/pages/admin/AdminMembers'))
+const AdminBelts      = lazy(() => import('@/pages/admin/AdminBelts'))
+const AdminLessons    = lazy(() => import('@/pages/admin/AdminLessons'))
+const AdminNutrition  = lazy(() => import('@/pages/admin/AdminNutrition'))
+const AdminSessions   = lazy(() => import('@/pages/admin/AdminSessions'))
+const AdminFeed       = lazy(() => import('@/pages/admin/AdminFeed'))
+const AdminAttendance = lazy(() => import('@/pages/admin/AdminAttendance'))
+const AdminBlog       = lazy(() => import('@/pages/admin/AdminBlog'))
+
+function RouteFallback() {
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center text-gold text-sm">
+      Loading…
+    </div>
+  )
+}
 
 function PublicSite() {
   return (
@@ -71,32 +85,39 @@ export default function App() {
   return (
     <BrowserRouter>
       <LeadChatbot />
-      <Routes>
-        {/* Public */}
-        <Route path="/" element={<PublicSite />} />
-        <Route path="/login" element={<Login />} />
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          {/* Public */}
+          <Route path="/" element={<PublicSite />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
 
-        {/* Member portal */}
-        <Route path="/member" element={<ProtectedRoute><MemberLayout /></ProtectedRoute>}>
-          <Route index element={<MemberDashboard />} />
-          <Route path="feed"      element={<MemberFeed />} />
-          <Route path="lessons"   element={<MemberLessons />} />
-          <Route path="nutrition" element={<MemberNutrition />} />
-          <Route path="gradings"  element={<MemberGradings />} />
-          <Route path="belts"     element={<MemberBelts />} />
-        </Route>
+          {/* Member portal */}
+          <Route path="/member" element={<ProtectedRoute><MemberLayout /></ProtectedRoute>}>
+            <Route index element={<MemberDashboard />} />
+            <Route path="feed"       element={<MemberFeed />} />
+            <Route path="attendance" element={<MemberAttendance />} />
+            <Route path="lessons"    element={<MemberLessons />} />
+            <Route path="nutrition"  element={<MemberNutrition />} />
+            <Route path="gradings"   element={<MemberGradings />} />
+            <Route path="belts"      element={<MemberBelts />} />
+          </Route>
 
-        {/* Admin panel */}
-        <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
-          <Route index element={<AdminOverview />} />
-          <Route path="members"   element={<AdminMembers />} />
-          <Route path="belts"     element={<AdminBelts />} />
-          <Route path="lessons"   element={<AdminLessons />} />
-          <Route path="nutrition" element={<AdminNutrition />} />
-          <Route path="sessions"  element={<AdminSessions />} />
-          <Route path="feed"      element={<AdminFeed />} />
-        </Route>
-      </Routes>
+          {/* Admin panel */}
+          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+            <Route index element={<AdminOverview />} />
+            <Route path="members"    element={<AdminMembers />} />
+            <Route path="belts"      element={<AdminBelts />} />
+            <Route path="lessons"    element={<AdminLessons />} />
+            <Route path="nutrition"  element={<AdminNutrition />} />
+            <Route path="sessions"   element={<AdminSessions />} />
+            <Route path="feed"       element={<AdminFeed />} />
+            <Route path="attendance" element={<AdminAttendance />} />
+            <Route path="blog"       element={<AdminBlog />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }

@@ -12,7 +12,7 @@ export default function AdminBelts() {
   const [showAdd, setShowAdd] = useState(false)
   const [newTag, setNewTag]   = useState('')
   const [saving, setSaving]   = useState(false)
-  const [fresh, setFresh]     = useState<Partial<BeltWithTags>>({ name: '', color_hex: '#ffffff', order_index: 1, belt_tags: [] })
+  const [fresh, setFresh]     = useState<Partial<BeltWithTags>>({ name: '', color_hex: '#ffffff', order_index: 1, typical_days_to_next: 90, belt_tags: [] })
 
   async function load() {
     const { data } = await supabase
@@ -34,6 +34,7 @@ export default function AdminBelts() {
       order_index: editing.order_index,
       description: editing.description,
       requirements:editing.requirements,
+      typical_days_to_next: editing.typical_days_to_next,
     }).eq('id', editing.id)
     setEditing(null)
     setSaving(false)
@@ -49,6 +50,7 @@ export default function AdminBelts() {
       order_index: fresh.order_index ?? belts.length + 1,
       description: fresh.description ?? null,
       requirements:fresh.requirements ?? null,
+      typical_days_to_next: fresh.typical_days_to_next ?? 90,
     }).select().single()
     if (data && fresh.belt_tags?.length) {
       await supabase.from('belt_tags').insert(fresh.belt_tags.map(t => ({ belt_id: data.id, tag: t.tag })))
@@ -104,6 +106,11 @@ export default function AdminBelts() {
               </div>
               <input type="number" value={fresh.order_index ?? ''} onChange={e => setFresh({ ...fresh, order_index: Number(e.target.value) })} placeholder="Order (1 = first)"
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-foreground text-sm focus:outline-none focus:border-gold/50" />
+              <div>
+                <label className="text-xs text-foreground/40 mb-1 block">Typical days on this belt before next grading</label>
+                <input type="number" value={fresh.typical_days_to_next ?? 90} onChange={e => setFresh({ ...fresh, typical_days_to_next: Number(e.target.value) })} placeholder="90"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-foreground text-sm focus:outline-none focus:border-gold/50" />
+              </div>
               <textarea value={fresh.requirements ?? ''} onChange={e => setFresh({ ...fresh, requirements: e.target.value })} placeholder="Grading requirements…" rows={3}
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-foreground text-sm focus:outline-none focus:border-gold/50 resize-none" />
             </div>
@@ -130,6 +137,11 @@ export default function AdminBelts() {
                     className="h-9 w-14 rounded cursor-pointer bg-transparent" />
                   <input type="number" value={editing.order_index} onChange={e => setEditing({ ...editing, order_index: Number(e.target.value) })}
                     className="w-16 bg-white/5 border border-white/10 rounded-lg px-2 py-2 text-foreground text-sm focus:outline-none focus:border-gold/50" />
+                </div>
+                <div className="flex items-center gap-3">
+                  <label className="text-xs text-foreground/40 whitespace-nowrap">Days to next grading</label>
+                  <input type="number" value={editing.typical_days_to_next} onChange={e => setEditing({ ...editing, typical_days_to_next: Number(e.target.value) })}
+                    className="w-24 bg-white/5 border border-white/10 rounded-lg px-2 py-2 text-foreground text-sm focus:outline-none focus:border-gold/50" />
                 </div>
                 <textarea value={editing.requirements ?? ''} onChange={e => setEditing({ ...editing, requirements: e.target.value })} placeholder="Requirements…" rows={3}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-foreground text-sm focus:outline-none focus:border-gold/50 resize-none" />

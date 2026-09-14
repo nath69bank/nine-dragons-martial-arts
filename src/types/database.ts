@@ -7,6 +7,7 @@ export interface Belt {
   color_hex: string
   description: string | null
   requirements: string | null
+  typical_days_to_next: number
   created_at: string
   belt_tags?: BeltTag[]
 }
@@ -109,6 +110,44 @@ export interface NewsPost {
   news_likes?: { profile_id: string }[]
 }
 
+export interface Attendance {
+  id: string
+  profile_id: string
+  class_date: string
+  class_label: string
+  marked_by: string | null
+  created_at: string
+  profile?: Pick<Profile, 'full_name' | 'email'>
+}
+
+export type NotificationType = 'news_post' | 'comment' | 'grading' | 'attendance' | 'general'
+
+export interface Notification {
+  id: string
+  profile_id: string
+  type: NotificationType
+  title: string
+  body: string | null
+  link: string | null
+  is_read: boolean
+  created_at: string
+}
+
+export interface BlogPost {
+  id: string
+  slug: string
+  title: string
+  excerpt: string | null
+  content: string
+  cover_image: string | null
+  author_id: string | null
+  is_published: boolean
+  published_at: string | null
+  created_at: string
+  updated_at: string
+  author?: Pick<Profile, 'full_name'>
+}
+
 // Supabase generic Database type (used by createClient)
 export type Database = {
   public: {
@@ -123,6 +162,9 @@ export type Database = {
       news_posts:       { Row: NewsPost;        Insert: Omit<NewsPost, 'id' | 'created_at' | 'updated_at' | 'author' | 'news_comments' | 'news_likes'>; Update: Partial<Omit<NewsPost, 'id' | 'created_at' | 'updated_at' | 'author' | 'news_comments' | 'news_likes'>> }
       news_comments:    { Row: NewsComment;     Insert: Omit<NewsComment, 'id' | 'created_at' | 'author'>;      Update: Partial<Omit<NewsComment, 'id' | 'created_at' | 'author'>> }
       news_likes:       { Row: NewsLike;        Insert: Omit<NewsLike, 'created_at'>;                           Update: Partial<Omit<NewsLike, 'created_at'>> }
+      attendance:       { Row: Attendance;      Insert: Omit<Attendance, 'id' | 'created_at' | 'profile'>;      Update: Partial<Omit<Attendance, 'id' | 'created_at' | 'profile'>> }
+      notifications:    { Row: Notification;    Insert: Omit<Notification, 'id' | 'created_at'>;                Update: Partial<Omit<Notification, 'id' | 'created_at'>> }
+      blog_posts:       { Row: BlogPost;        Insert: Omit<BlogPost, 'id' | 'created_at' | 'updated_at' | 'author'>; Update: Partial<Omit<BlogPost, 'id' | 'created_at' | 'updated_at' | 'author'>> }
     }
   }
 }

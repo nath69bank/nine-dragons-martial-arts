@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { PublicSession } from '@/types/database'
+import ImageUpload from '@/components/ImageUpload'
 import { Plus, Pencil, Trash2, Eye, EyeOff, Play } from 'lucide-react'
 
 const CATEGORIES = ['Training', 'Sparring', 'Grading', 'Events', 'Seminars']
@@ -84,11 +85,11 @@ export default function AdminSessions() {
           placeholder="Video URL — YouTube (watch or embed), Vimeo, or direct .mp4"
           className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:border-gold/50"
         />
-        <input
+        <ImageUpload
           value={editing.thumbnail_url ?? ''}
-          onChange={e => setEditing({ ...editing, thumbnail_url: e.target.value })}
-          placeholder="Thumbnail image URL (optional — auto-extracted from YouTube if blank)"
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:border-gold/50"
+          onChange={url => setEditing({ ...editing, thumbnail_url: url })}
+          folder="sessions"
+          placeholder="Thumbnail URL (optional — auto-extracted from YouTube if blank) or upload"
         />
         <div className="flex gap-4">
           <select

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
-import type { Profile, Belt } from '@/types/database'
-import { UserPlus, Pencil, Check, X, Trash2, Clock, AlertCircle } from 'lucide-react'
+import type { Profile, Belt, GradingHistory } from '@/types/database'
+import { UserPlus, Pencil, Check, X, Trash2, Clock, AlertCircle, TrendingUp } from 'lucide-react'
 
 type EditableProfile = Omit<Profile, 'belt'>
 type StatusFilter = 'all' | 'active' | 'pending' | 'inactive'
@@ -9,6 +9,7 @@ type StatusFilter = 'all' | 'active' | 'pending' | 'inactive'
 export default function AdminMembers() {
   const [members, setMembers]   = useState<Profile[]>([])
   const [belts, setBelts]       = useState<Belt[]>([])
+  const [lastGraded, setLastGraded] = useState<Record<string, string>>({})
   const [loading, setLoading]   = useState(true)
   const [editing, setEditing]   = useState<EditableProfile | null>(null)
   const [showAdd, setShowAdd]   = useState(false)
@@ -20,16 +21,31 @@ export default function AdminMembers() {
   const [error, setError]       = useState('')
 
   async function load() {
-    const [{ data: m }, { data: b }] = await Promise.all([
+    const [{ data: m }, { data: b }, { data: g }] = await Promise.all([
       supabase.from('profiles').select('*, belt:belts(*)').order('full_name'),
       supabase.from('belts').select('*').order('order_index'),
+      supabase.from('grading_history').select('*').order('graded_at', { ascending: false }),
     ])
     setMembers(m ?? [])
     setBelts(b ?? [])
+    const latest: Record<string, string> = {}
+    for (const row of (g ?? []) as GradingHistory[]) {
+      if (!latest[row.profile_id]) latest[row.profile_id] = row.graded_at
+    }
+    setLastGraded(latest)
     setLoading(false)
   }
 
   useEffect(() => { load() }, [])
+
+  const maxBeltOrder = belts.reduce((max, b) => Math.max(max, b.order_index), 0)
+
+  function isOverdue(m: Profile): boolean {
+    if (!m.belt || m.belt.order_index >= maxBeltOrder || m.status !== 'active') return false
+    const since = lastGraded[m.id] ?? m.joined_at
+    const daysSince = (Date.now() - new Date(since).getTime()) / 86_400_000
+    return daysSince >= m.belt.typical_days_to_next
+  }
 
   async function saveEdit() {
     if (!editing) return
@@ -75,20 +91,15 @@ export default function AdminMembers() {
     if (!newEmail) return
     setSaving(true)
     setError('')
-    const { data, error: inviteErr } = await supabase.auth.admin.inviteUserByEmail(newEmail, {
-      data: { full_name: newName },
+    // Inviting requires the Supabase service-role key, which must never reach the
+    // browser — this calls a server-side Edge Function that holds it instead.
+    const { data, error: inviteErr } = await supabase.functions.invoke('invite-member', {
+      body: { email: newEmail, full_name: newName, belt_id: newBelt || null },
     })
-    if (inviteErr || !data?.user) {
-      setError(inviteErr?.message ?? 'Could not invite user — check Supabase service key')
+    if (inviteErr || data?.error) {
+      setError(data?.error ?? inviteErr?.message ?? 'Could not invite user — check the invite-member Edge Function is deployed')
       setSaving(false)
       return
-    }
-    if (newBelt || newName) {
-      await supabase.from('profiles').update({
-        full_name: newName || null,
-        belt_id:   newBelt || null,
-        status:    'active',
-      }).eq('id', data.user.id)
     }
     setShowAdd(false)
     setNewEmail('')
@@ -269,10 +280,17 @@ export default function AdminMembers() {
                       </td>
                       <td className="px-4 py-3 hidden md:table-cell">
                         {m.belt ? (
-                          <span className="inline-flex items-center gap-1.5 text-xs px-2 py-1 rounded-full bg-white/10 text-foreground/60">
-                            <span className="w-2 h-2 rounded-full" style={{ background: m.belt.color_hex }} />
-                            {m.belt.name}
-                          </span>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="inline-flex items-center gap-1.5 text-xs px-2 py-1 rounded-full bg-white/10 text-foreground/60">
+                              <span className="w-2 h-2 rounded-full" style={{ background: m.belt.color_hex }} />
+                              {m.belt.name}
+                            </span>
+                            {isOverdue(m) && (
+                              <span title="Overdue for next grading" className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-yellow-500/10 text-yellow-400">
+                                <TrendingUp size={10} /> Overdue
+                              </span>
+                            )}
+                          </div>
                         ) : <span className="text-foreground/30 text-xs">No belt</span>}
                       </td>
                       <td className="px-4 py-3 hidden lg:table-cell">

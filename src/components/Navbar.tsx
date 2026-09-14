@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { label: 'Disciplines', href: '#disciplines' },
   { label: 'Schedule', href: '#schedule' },
   { label: 'Instructors', href: '#instructors' },
+  { label: 'Blog', href: '/blog', isRoute: true },
   { label: 'Join', href: '#join' },
 ]
 
@@ -77,12 +78,21 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-0.5 text-sm">
           {NAV_LINKS.map((link, i) => (
             <span key={link.label} className="flex items-center">
-              <a
-                href={link.href}
-                className="px-3 py-1.5 text-[rgba(255,255,255,0.6)] hover:text-white transition-colors duration-200 rounded text-[13px] tracking-wide"
-              >
-                {link.label}
-              </a>
+              {link.isRoute ? (
+                <Link
+                  to={link.href}
+                  className="px-3 py-1.5 text-[rgba(255,255,255,0.6)] hover:text-white transition-colors duration-200 rounded text-[13px] tracking-wide"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  href={link.href}
+                  className="px-3 py-1.5 text-[rgba(255,255,255,0.6)] hover:text-white transition-colors duration-200 rounded text-[13px] tracking-wide"
+                >
+                  {link.label}
+                </a>
+              )}
               {i < NAV_LINKS.length - 1 && (
                 <span className="text-[rgba(201,161,74,0.35)] text-[10px] select-none mx-0.5">
                   ·
@@ -167,21 +177,35 @@ export default function Navbar() {
             <div className="flex flex-col h-full overflow-y-auto px-6 pb-12 pt-6">
               {/* Nav links */}
               <nav className="flex flex-col gap-1">
-                {NAV_LINKS.map((link, i) => (
-                  <motion.a
-                    key={link.label}
-                    href={link.href}
-                    initial={{ opacity: 0, x: -16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.2, delay: i * 0.04 }}
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center justify-between py-4 border-b text-lg font-medium text-white/80 hover:text-white transition-colors"
-                    style={{ borderColor: 'rgba(201,161,74,0.12)' }}
-                  >
-                    <span>{link.label}</span>
-                    <span style={{ color: '#c9a14a' }}>→</span>
-                  </motion.a>
-                ))}
+                {NAV_LINKS.map((link, i) => {
+                  const content = (
+                    <>
+                      <span>{link.label}</span>
+                      <span style={{ color: '#c9a14a' }}>→</span>
+                    </>
+                  )
+                  const className = "flex items-center justify-between py-4 border-b text-lg font-medium text-white/80 hover:text-white transition-colors"
+                  return link.isRoute ? (
+                    <motion.div key={link.label} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.2, delay: i * 0.04 }}>
+                      <Link to={link.href} onClick={() => setMenuOpen(false)} className={className} style={{ borderColor: 'rgba(201,161,74,0.12)' }}>
+                        {content}
+                      </Link>
+                    </motion.div>
+                  ) : (
+                    <motion.a
+                      key={link.label}
+                      href={link.href}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: i * 0.04 }}
+                      onClick={() => setMenuOpen(false)}
+                      className={className}
+                      style={{ borderColor: 'rgba(201,161,74,0.12)' }}
+                    >
+                      {content}
+                    </motion.a>
+                  )
+                })}
               </nav>
 
               {/* CTA */}

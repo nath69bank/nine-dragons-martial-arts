@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { supabase } from '@/lib/supabase'
 import type { NewsPost } from '@/types/database'
+import ImageUpload from '@/components/ImageUpload'
 import { Plus, Pencil, Trash2, Eye, EyeOff, Pin, PinOff, Heart, MessageCircle } from 'lucide-react'
 
 const blank = { content: '', image_url: '', is_pinned: false, is_published: true }
@@ -71,11 +72,11 @@ export default function AdminFeed() {
           rows={5}
           className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:border-gold/50 resize-none"
         />
-        <input
+        <ImageUpload
           value={editing.image_url}
-          onChange={e => setEditing({ ...editing, image_url: e.target.value })}
-          placeholder="Image URL (optional)"
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:border-gold/50"
+          onChange={url => setEditing({ ...editing, image_url: url })}
+          folder="news"
+          placeholder="Image URL (optional) or upload a photo"
         />
         <div className="flex gap-6">
           <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground/70">

@@ -1,16 +1,19 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { useNoIndex } from '@/hooks/useNoIndex'
-import { Users, Award, BookOpen, Apple, LayoutDashboard, LogOut, ChevronLeft, Video, Newspaper } from 'lucide-react'
+import NotificationBell from '@/components/NotificationBell'
+import { Users, Award, BookOpen, Apple, LayoutDashboard, LogOut, ChevronLeft, Video, Newspaper, CalendarCheck, FileText } from 'lucide-react'
 
 const nav = [
   { to: '/admin',           label: 'Overview',   icon: LayoutDashboard, end: true },
   { to: '/admin/members',   label: 'Members',    icon: Users },
+  { to: '/admin/attendance', label: 'Attendance', icon: CalendarCheck },
   { to: '/admin/belts',     label: 'Belts',      icon: Award },
   { to: '/admin/feed',      label: 'News Feed',  icon: Newspaper },
   { to: '/admin/lessons',   label: 'Lessons',    icon: BookOpen },
   { to: '/admin/nutrition', label: 'Nutrition',  icon: Apple },
   { to: '/admin/sessions',  label: 'Sessions',   icon: Video },
+  { to: '/admin/blog',      label: 'Blog',       icon: FileText },
 ]
 
 export default function AdminLayout() {
@@ -31,6 +34,9 @@ export default function AdminLayout() {
           <div className="hidden lg:block">
             <p className="text-xs text-foreground/40">Admin Panel</p>
             <p className="text-sm font-semibold text-gold">Nine Dragons</p>
+          </div>
+          <div className="ml-auto">
+            <NotificationBell />
           </div>
         </div>
 

@@ -1,11 +1,13 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { useNoIndex } from '@/hooks/useNoIndex'
-import { LayoutDashboard, BookOpen, Apple, Award, LogOut, ShieldCheck, Shield, Newspaper } from 'lucide-react'
+import NotificationBell from '@/components/NotificationBell'
+import { LayoutDashboard, BookOpen, Apple, Award, LogOut, ShieldCheck, Shield, Newspaper, CalendarCheck } from 'lucide-react'
 
 const nav = [
   { to: '/member',          label: 'Dashboard',  icon: LayoutDashboard, end: true },
   { to: '/member/feed',     label: 'News Feed',   icon: Newspaper },
+  { to: '/member/attendance', label: 'Attendance', icon: CalendarCheck },
   { to: '/member/lessons',  label: 'Lessons',    icon: BookOpen },
   { to: '/member/nutrition',label: 'Nutrition',   icon: Apple },
   { to: '/member/gradings', label: 'Gradings',    icon: Award },
@@ -32,6 +34,9 @@ export default function MemberLayout() {
           <div className="hidden lg:block">
             <p className="text-xs text-foreground/40 leading-none">Members Portal</p>
             <p className="text-sm font-semibold text-gold mt-0.5 leading-none">Nine Dragons</p>
+          </div>
+          <div className="ml-auto">
+            <NotificationBell />
           </div>
         </div>
 
