@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useRef, useLayoutEffect } from 'react'
+import { gsap, reveal } from '@/lib/scrollReveal'
 
 const PILLARS = [
   {
@@ -25,46 +26,49 @@ const PILLARS = [
 ]
 
 export default function WhyItMatters() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const eyebrowRef  = useRef<HTMLDivElement>(null)
+  const headerRef   = useRef<HTMLDivElement>(null)
+  const cardsRef    = useRef<HTMLDivElement>(null)
+  const taglineRef  = useRef<HTMLParagraphElement>(null)
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      reveal(eyebrowRef.current, { from: { x: -24 }, duration: 0.6 })
+      reveal(headerRef.current, { from: { x: -24 }, duration: 0.6, delay: 0.08 })
+      if (cardsRef.current) {
+        reveal(cardsRef.current.children, {
+          from: { y: 32 }, duration: 0.55, stagger: 0.1, trigger: cardsRef.current,
+        })
+      }
+      reveal(taglineRef.current, { from: { y: 0 }, duration: 0.7, delay: 0.1 })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="philosophy" className="relative py-14 md:py-32 border-t border-border/30">
+    <section id="philosophy" ref={sectionRef} className="relative py-14 md:py-32 border-t border-border/30">
       <div className="max-w-7xl mx-auto px-5 md:px-20">
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6 }}
-          className="mb-4"
-        >
+        <div ref={eyebrowRef} className="mb-4">
           <span className="eyebrow">01 ─── Philosophy · The Code</span>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, delay: 0.08 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16"
-        >
+        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16">
           <h2 className="section-h2 mb-0">
-            Martial arts will{' '}
-            <em>forge you.</em>
+            Martial arts will <em>forge you.</em>
           </h2>
           <p className="text-muted-foreground text-base max-w-sm">
             Whether you're 5 or 55, a first session at Nine Dragons changes something.
           </p>
-        </motion.div>
+        </div>
 
         {/* Three pillar cards */}
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-16">
+        <div ref={cardsRef} className="grid md:grid-cols-3 gap-6 md:gap-8 mb-16">
           {PILLARS.map((pillar, i) => (
-            <motion.div
+            <div
               key={pillar.name}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.55, delay: 0.08 + i * 0.1, ease: 'easeOut' }}
               className="group gold-card rounded-2xl p-8 flex flex-col gap-5 relative overflow-hidden"
             >
               <div className="absolute inset-0 dragon-scales opacity-30" />
@@ -100,21 +104,14 @@ export default function WhyItMatters() {
               >
                 {pillar.description}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="text-sm"
-          style={{ color: 'rgba(255,255,255,0.28)' }}
-        >
+        <p ref={taglineRef} className="text-sm" style={{ color: 'rgba(255,255,255,0.28)' }}>
           If you don't take the first step, someone else will take it for you.
-        </motion.p>
+        </p>
       </div>
     </section>
   )

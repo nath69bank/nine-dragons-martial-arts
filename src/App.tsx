@@ -17,6 +17,7 @@ import ScrollJourney from '@/components/ScrollJourney'
 import DragonDivider from '@/components/DragonDivider'
 import VideoSessions from '@/components/VideoSessions'
 import LeadChatbot from '@/components/LeadChatbot'
+import InlineCTA from '@/components/InlineCTA'
 
 // Blog — split out, a visitor may never take this route
 const Blog     = lazy(() => import('@/pages/Blog'))
@@ -41,6 +42,13 @@ function PublicSite() {
       <Mission />
       <DragonDivider chapter={3} title="The Path" char="龍" />
       <Disciplines />
+      <InlineCTA
+        eyebrow="Found Your Stage?"
+        heading={<>Every Dragon has a <em style={{ color: '#c9a14a', fontStyle: 'italic' }}>starting point.</em></>}
+        body="Whichever stage fits — Cub, Spark, Ninja, Warrior, or Master — your first class is free and there's no pressure to commit."
+        buttonText="Claim Your Free Class"
+        intent="free-trial"
+      />
       <DragonDivider chapter={4} title="The Lineage" char="師" />
       <Instructors />
       <DragonDivider chapter={5} title="The Dojo" char="館" />
@@ -50,6 +58,13 @@ function PublicSite() {
       <VideoSessions />
       <DragonDivider chapter={7} title="The Warriors" char="戰" />
       <Testimonials />
+      <InlineCTA
+        eyebrow="Inspired?"
+        heading={<>They started exactly where <em style={{ color: '#c9a14a', fontStyle: 'italic' }}>you are now.</em></>}
+        body="Real students, real results. Come see what six weeks of consistent training can do — book a free trial class this week."
+        buttonText="Book Your Free Trial"
+        intent="free-trial"
+      />
       <DragonDivider chapter={8} title="Your Turn" char="起" />
       <JoinCTA />
       <Footer />

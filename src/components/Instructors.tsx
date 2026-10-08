@@ -1,49 +1,46 @@
-import { motion } from 'framer-motion'
+import { useRef, useLayoutEffect } from 'react'
+import { gsap, reveal } from '@/lib/scrollReveal'
 import { Award, Users, Star } from 'lucide-react'
 
 export default function Instructors() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const eyebrowRef  = useRef<HTMLDivElement>(null)
+  const titleRef    = useRef<HTMLHeadingElement>(null)
+  const mainCardRef = useRef<HTMLDivElement>(null)
+  const quoteRef    = useRef<HTMLDivElement>(null)
+  const endorseRef  = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      reveal(eyebrowRef.current, { from: { x: -24 } })
+      reveal(titleRef.current, { from: { x: -24 }, delay: 0.06 })
+      reveal(mainCardRef.current, { from: { x: -28 }, duration: 0.65, delay: 0.1 })
+      reveal(quoteRef.current, { from: { x: 28 }, delay: 0.15 })
+      reveal(endorseRef.current, { from: { x: 28 }, delay: 0.22 })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="instructors" className="relative py-14 md:py-32 bg-card/20 border-t border-border/30">
+    <section id="instructors" ref={sectionRef} className="relative py-14 md:py-32 bg-card/20 border-t border-border/30">
       <div className="max-w-7xl mx-auto px-5 md:px-20">
-        <motion.div
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6 }}
-          className="mb-4"
-        >
+        <div ref={eyebrowRef} className="mb-4">
           <span className="eyebrow">04 ─── Instructors · The Lineage</span>
-        </motion.div>
-        <motion.h2
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, delay: 0.06 }}
-          className="section-h2 mb-14"
-        >
+        </div>
+        <h2 ref={titleRef} className="section-h2 mb-14">
           Taught by the <em>Best</em>
-        </motion.h2>
+        </h2>
 
         <div className="grid lg:grid-cols-3 gap-7">
           {/* Master Martin — main card */}
-          <motion.div
-            initial={{ opacity: 0, x: -28 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.65, delay: 0.1, ease: 'easeOut' }}
-            className="lg:col-span-2 gold-card rounded-2xl p-8 md:p-10 relative overflow-hidden"
-          >
+          <div ref={mainCardRef} className="lg:col-span-2 gold-card rounded-2xl p-8 md:p-10 relative overflow-hidden">
             <div className="absolute inset-0 dragon-scales opacity-25" />
             <div
               className="absolute top-0 right-0 w-72 h-72 pointer-events-none"
-              style={{
-                background:
-                  'radial-gradient(circle at 75% 25%, rgba(201,161,74,0.06), transparent 55%)',
-              }}
+              style={{ background: 'radial-gradient(circle at 75% 25%, rgba(201,161,74,0.06), transparent 55%)' }}
             />
 
             <div className="relative z-10">
-              {/* Avatar placeholder */}
               <div
                 className="w-20 h-20 rounded-2xl mb-6 flex items-center justify-center text-2xl font-bold text-primary"
                 style={{
@@ -96,41 +93,25 @@ export default function Instructors() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right column */}
           <div className="flex flex-col gap-6">
-            <motion.div
-              initial={{ opacity: 0, x: 28 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
-              className="gold-card rounded-2xl p-7 flex flex-col gap-4"
-            >
+            <div ref={quoteRef} className="gold-card rounded-2xl p-7 flex flex-col gap-4">
               <span className="eyebrow !mb-0">Teaching Philosophy</span>
               <blockquote className="text-muted-foreground text-sm leading-relaxed italic border-l-2 border-primary/40 pl-4">
                 "Kaizendo means the way of continuous improvement. There is no destination — only the
                 next step. My job is to make sure every student knows where that step is."
               </blockquote>
               <p className="text-xs text-muted-foreground">— Master Martin</p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 28 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: 0.22, ease: 'easeOut' }}
-              className="gold-card rounded-2xl p-7 flex flex-col gap-4 relative overflow-hidden"
-            >
+            <div ref={endorseRef} className="gold-card rounded-2xl p-7 flex flex-col gap-4 relative overflow-hidden">
               <div className="absolute inset-0 dragon-scales opacity-20" />
               <div className="relative z-10">
                 <div
                   className="w-11 h-11 rounded-xl mb-4 flex items-center justify-center text-sm font-bold text-primary"
-                  style={{
-                    background:
-                      'linear-gradient(135deg, hsl(222,60%,8%) 0%, hsl(223,50%,14%) 100%)',
-                    border: '1px solid rgba(201,161,74,0.3)',
-                  }}
+                  style={{ background: 'linear-gradient(135deg, hsl(222,60%,8%) 0%, hsl(223,50%,14%) 100%)', border: '1px solid rgba(201,161,74,0.3)' }}
                 >
                   SS
                 </div>
@@ -141,7 +122,7 @@ export default function Instructors() {
                   standard at Nine Dragons reflects everything this art stands for."
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

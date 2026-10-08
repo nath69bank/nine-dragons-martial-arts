@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useRef, useLayoutEffect } from 'react'
+import { gsap, reveal } from '@/lib/scrollReveal'
 import { Quote } from 'lucide-react'
 
 const TESTIMONIALS = [
@@ -29,38 +30,37 @@ const TESTIMONIALS = [
 ]
 
 export default function Testimonials() {
-  return (
-    <section id="testimonials" className="relative py-14 md:py-32 border-t border-border/30">
-      <div className="max-w-7xl mx-auto px-5 md:px-20">
-        <motion.div
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6 }}
-          className="mb-4"
-        >
-          <span className="eyebrow">07 ─── Testimonials · The Warriors</span>
-        </motion.div>
-        <motion.h2
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, delay: 0.06 }}
-          className="section-h2 mb-16"
-        >
-          What They <em>Say</em>
-        </motion.h2>
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const eyebrowRef  = useRef<HTMLDivElement>(null)
+  const titleRef    = useRef<HTMLHeadingElement>(null)
+  const gridRef     = useRef<HTMLDivElement>(null)
 
-        <div className="grid lg:grid-cols-3 gap-7">
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div
-              key={t.author}
-              initial={{ opacity: 0, y: 36, scale: 0.97 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: i * 0.12, ease: 'easeOut' }}
-              className="gold-card rounded-2xl p-8 flex flex-col gap-5 relative overflow-hidden"
-            >
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      reveal(eyebrowRef.current, { from: { x: -24 } })
+      reveal(titleRef.current, { from: { x: -24 }, delay: 0.06 })
+      if (gridRef.current) {
+        reveal(gridRef.current.children, {
+          from: { y: 36, scale: 0.97 }, stagger: 0.12, trigger: gridRef.current,
+        })
+      }
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section id="testimonials" ref={sectionRef} className="relative py-14 md:py-32 border-t border-border/30">
+      <div className="max-w-7xl mx-auto px-5 md:px-20">
+        <div ref={eyebrowRef} className="mb-4">
+          <span className="eyebrow">07 ─── Testimonials · The Warriors</span>
+        </div>
+        <h2 ref={titleRef} className="section-h2 mb-16">
+          What They <em>Say</em>
+        </h2>
+
+        <div ref={gridRef} className="grid lg:grid-cols-3 gap-7">
+          {TESTIMONIALS.map(t => (
+            <div key={t.author} className="gold-card rounded-2xl p-8 flex flex-col gap-5 relative overflow-hidden">
               <div className="absolute inset-0 dragon-scales opacity-20" />
 
               {t.featured && (
@@ -78,10 +78,7 @@ export default function Testimonials() {
               <div className="flex items-center gap-3 relative z-10 pt-4 border-t border-border/30">
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-primary shrink-0"
-                  style={{
-                    background: 'linear-gradient(135deg, hsl(222,60%,8%) 0%, hsl(223,50%,14%) 100%)',
-                    border: '1px solid rgba(201,161,74,0.3)',
-                  }}
+                  style={{ background: 'linear-gradient(135deg, hsl(222,60%,8%) 0%, hsl(223,50%,14%) 100%)', border: '1px solid rgba(201,161,74,0.3)' }}
                 >
                   {t.initials}
                 </div>
@@ -90,7 +87,7 @@ export default function Testimonials() {
                   <p className="text-muted-foreground text-xs">{t.role}</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
