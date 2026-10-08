@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { supabase } from '@/lib/supabase'
 import { useDocumentHead } from '@/hooks/useDocumentHead'
-import type { BlogPost as BlogPostType } from '@/types/database'
+import { BLOG_POSTS } from '@/data/blogPosts'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { ArrowLeft } from 'lucide-react'
@@ -11,55 +9,31 @@ const SITE = 'https://ninedragonsmartialarts.co.uk'
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
-  const [post, setPost]       = useState<BlogPostType | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [notFound, setNotFound] = useState(false)
-
-  useEffect(() => {
-    if (!slug) return
-    supabase
-      .from('blog_posts')
-      .select('*')
-      .eq('slug', slug)
-      .eq('is_published', true)
-      .maybeSingle()
-      .then(({ data }) => {
-        setPost(data)
-        setNotFound(!data)
-        setLoading(false)
-      })
-  }, [slug])
+  const post = BLOG_POSTS.find(p => p.slug === slug) ?? null
 
   useDocumentHead({
     title: post ? `${post.title} | Nine Dragons Martial Arts` : 'Nine Dragons Martial Arts Blog',
-    description: post?.excerpt ?? undefined,
+    description: post?.excerpt,
     canonical: post ? `${SITE}/blog/${post.slug}` : undefined,
     jsonLd: post ? {
       '@context': 'https://schema.org',
       '@type': 'Article',
       headline: post.title,
-      description: post.excerpt ?? undefined,
-      image: post.cover_image ?? undefined,
-      datePublished: post.published_at ?? post.created_at,
-      dateModified: post.updated_at,
+      description: post.excerpt,
+      image: post.coverImage,
+      datePublished: post.publishedAt,
+      dateModified: post.publishedAt,
       author: { '@type': 'Organization', name: 'Nine Dragons Martial Arts' },
       publisher: {
         '@type': 'Organization',
         name: 'Nine Dragons Martial Arts',
-        logo: { '@type': 'ImageObject', url: `${SITE}/logo.png` },
+        logo: { '@type': 'ImageObject', url: `${SITE}/logo.jpeg` },
       },
       mainEntityOfPage: `${SITE}/blog/${post.slug}`,
     } : undefined,
   })
 
-  if (loading) return (
-    <main className="bg-background text-foreground min-h-screen">
-      <Navbar />
-      <div className="max-w-2xl mx-auto px-5 pt-32 pb-24 text-foreground/40">Loading…</div>
-    </main>
-  )
-
-  if (notFound || !post) return (
+  if (!post) return (
     <main className="bg-background text-foreground min-h-screen">
       <Navbar />
       <div className="max-w-2xl mx-auto px-5 pt-32 pb-24">
@@ -79,12 +53,12 @@ export default function BlogPost() {
         </Link>
 
         <time className="text-xs text-foreground/40">
-          {post.published_at && new Date(post.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+          {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
         </time>
         <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-6 leading-tight">{post.title}</h1>
 
-        {post.cover_image && (
-          <img src={post.cover_image} alt={post.title} className="w-full rounded-2xl mb-8 object-cover max-h-[420px]" />
+        {post.coverImage && (
+          <img src={post.coverImage} alt={post.title} className="w-full rounded-2xl mb-8 object-cover max-h-[420px]" />
         )}
 
         <div className="prose prose-invert max-w-none text-foreground/80 whitespace-pre-wrap leading-relaxed">

@@ -118,14 +118,6 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Members login — desktop */}
-          <Link
-            to="/login"
-            className="ml-2 hidden lg:flex items-center gap-2 rounded-full px-4 py-2 text-[11px] font-bold tracking-[0.18em] uppercase border border-[rgba(201,161,74,0.35)] text-[#c9a14a] hover:bg-[rgba(201,161,74,0.08)] transition-all duration-200"
-          >
-            Members
-          </Link>
-
           {/* Desktop CTA */}
           <button
             onClick={() => window.dispatchEvent(new CustomEvent('open-chatbot', { detail: { intent: 'free-trial' } }))}
@@ -226,13 +218,6 @@ export default function Navbar() {
                 >
                   Book Free Trial
                 </button>
-                <Link
-                  to="/login"
-                  onClick={() => setMenuOpen(false)}
-                  className="block text-center py-3 rounded-full text-sm font-bold tracking-[0.18em] uppercase border border-[rgba(201,161,74,0.35)] text-[#c9a14a]"
-                >
-                  Members Login
-                </Link>
                 <p className="text-center text-xs text-white/30">Your first class is free</p>
               </motion.div>
 

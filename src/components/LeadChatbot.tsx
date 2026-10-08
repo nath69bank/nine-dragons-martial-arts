@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, MessageCircle, Send, ChevronRight, LogIn } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { X, MessageCircle, Send, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 // ── Config ───────────────────────────────────────────────────────────────────
@@ -117,7 +116,7 @@ export default function LeadChatbot() {
     return () => clearInterval(t)
   }, [])
 
-  // Listen for events from navbar / hero / login page
+  // Listen for events from navbar / hero CTAs
   useEffect(() => {
     function handler(e: Event) {
       const detail = (e as CustomEvent).detail as { intent?: string } | undefined
@@ -393,16 +392,6 @@ export default function LeadChatbot() {
 
               <div ref={bottomRef} />
             </div>
-
-            {/* Already a member shortcut */}
-            {step !== 'done' && (
-              <div className="px-4 pb-1.5 flex justify-center flex-shrink-0">
-                <Link to="/login" onClick={() => setOpen(false)}
-                  className="inline-flex items-center gap-1.5 text-xs text-foreground/25 hover:text-gold/60 transition-colors">
-                  <LogIn size={11} /> Already a member? Sign in
-                </Link>
-              </div>
-            )}
 
             {/* Text input */}
             <AnimatePresence>

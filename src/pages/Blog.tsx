@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase } from '@/lib/supabase'
 import { useDocumentHead } from '@/hooks/useDocumentHead'
-import type { BlogPost } from '@/types/database'
+import { BLOG_POSTS } from '@/data/blogPosts'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { ArrowRight } from 'lucide-react'
@@ -10,8 +8,7 @@ import { ArrowRight } from 'lucide-react'
 const SITE = 'https://ninedragonsmartialarts.co.uk'
 
 export default function Blog() {
-  const [posts, setPosts]     = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
+  const posts = [...BLOG_POSTS].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
   useDocumentHead({
     title: 'Martial Arts Blog | Nine Dragons Martial Arts, Birkenhead',
@@ -25,15 +22,6 @@ export default function Blog() {
     },
   })
 
-  useEffect(() => {
-    supabase
-      .from('blog_posts')
-      .select('*')
-      .eq('is_published', true)
-      .order('published_at', { ascending: false })
-      .then(({ data }) => { setPosts(data ?? []); setLoading(false) })
-  }, [])
-
   return (
     <main className="bg-background text-foreground min-h-screen">
       <Navbar />
@@ -44,24 +32,22 @@ export default function Blog() {
           Training tips, grading advice, and news from Nine Dragons Martial Arts in Birkenhead.
         </p>
 
-        {loading ? (
-          <p className="text-foreground/40">Loading articles…</p>
-        ) : posts.length === 0 ? (
+        {posts.length === 0 ? (
           <p className="text-foreground/40">No articles published yet — check back soon.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map(post => (
               <Link
-                key={post.id}
+                key={post.slug}
                 to={`/blog/${post.slug}`}
                 className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden hover:border-gold/30 transition-colors flex flex-col"
               >
-                {post.cover_image && (
-                  <img src={post.cover_image} alt={post.title} className="h-44 w-full object-cover" loading="lazy" />
+                {post.coverImage && (
+                  <img src={post.coverImage} alt={post.title} className="h-44 w-full object-cover" loading="lazy" />
                 )}
                 <div className="p-5 flex-1 flex flex-col">
                   <time className="text-xs text-foreground/40">
-                    {post.published_at && new Date(post.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </time>
                   <h2 className="text-lg font-semibold text-foreground mt-1.5 group-hover:text-gold transition-colors">{post.title}</h2>
                   {post.excerpt && <p className="text-sm text-foreground/50 mt-2 line-clamp-3 flex-1">{post.excerpt}</p>}

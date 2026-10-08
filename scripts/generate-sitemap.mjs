@@ -1,13 +1,13 @@
 // Regenerates public/sitemap.xml before every build, adding one <url> per
-// published blog post fetched from Supabase. Falls back to the static
-// section URLs only if the Supabase env vars aren't available at build time
-// (e.g. a local build without a .env file) — it never fails the build.
-import { writeFileSync } from 'node:fs'
+// blog post found in src/data/blogPosts.ts. Pure static site — no network
+// calls, never fails the build.
+import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const sitemapPath = path.join(__dirname, '..', 'public', 'sitemap.xml')
+const sitemapPath   = path.join(__dirname, '..', 'public', 'sitemap.xml')
+const blogDataPath  = path.join(__dirname, '..', 'src', 'data', 'blogPosts.ts')
 const SITE = 'https://ninedragonsmartialarts.co.uk'
 
 function today() {
@@ -25,30 +25,19 @@ const STATIC_URLS = [
   { loc: `${SITE}/blog`, changefreq: 'weekly', priority: '0.8', lastmod: today() },
 ]
 
-async function fetchBlogUrls() {
-  const url = process.env.VITE_SUPABASE_URL
-  const key = process.env.VITE_SUPABASE_ANON_KEY
-  if (!url || !key) {
-    console.warn('[sitemap] VITE_SUPABASE_URL/VITE_SUPABASE_ANON_KEY not set — skipping blog URLs')
-    return []
-  }
+function getBlogUrls() {
   try {
-    const res = await fetch(`${url}/rest/v1/blog_posts?select=slug,updated_at&is_published=eq.true`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-    })
-    if (!res.ok) {
-      console.warn(`[sitemap] Failed to fetch blog posts (${res.status}) — skipping blog URLs`)
-      return []
-    }
-    const posts = await res.json()
-    return posts.map(p => ({
-      loc: `${SITE}/blog/${p.slug}`,
+    const src = readFileSync(blogDataPath, 'utf8')
+    const slugs = [...src.matchAll(/^\s*slug:\s*'([^']+)',/gm)].map(m => m[1])
+    const dates = [...src.matchAll(/^\s*publishedAt:\s*'([^']+)',?/gm)].map(m => m[1])
+    return slugs.map((slug, i) => ({
+      loc: `${SITE}/blog/${slug}`,
       changefreq: 'monthly',
       priority: '0.7',
-      lastmod: (p.updated_at || today()).slice(0, 10),
+      lastmod: dates[i] || today(),
     }))
   } catch (err) {
-    console.warn('[sitemap] Error fetching blog posts:', err.message)
+    console.warn('[sitemap] Could not read blog post data — skipping blog URLs:', err.message)
     return []
   }
 }
@@ -75,7 +64,7 @@ ${items}
 `
 }
 
-const blogUrls = await fetchBlogUrls()
+const blogUrls = getBlogUrls()
 const xml = toXml([...STATIC_URLS, ...blogUrls])
 writeFileSync(sitemapPath, xml)
 console.log(`[sitemap] Wrote ${STATIC_URLS.length + blogUrls.length} URLs to public/sitemap.xml`)

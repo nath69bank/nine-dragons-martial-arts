@@ -1,9 +1,26 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Play, ChevronLeft, ChevronRight } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
-import type { PublicSession } from '@/types/database'
 import { cn } from '@/lib/utils'
+
+// ─────────────────────────────────────────────────────────
+// SESSION CLIP DATA — edit directly, no backend required.
+// video_url: a YouTube/Vimeo URL (watch or share link — converted
+// to an embed automatically). thumbnail_url: optional, auto-pulled
+// from YouTube when left blank.
+// ─────────────────────────────────────────────────────────
+interface SessionClip {
+  id: string
+  title: string
+  description: string | null
+  video_url: string
+  thumbnail_url: string | null
+  category: string
+}
+
+const SESSIONS: SessionClip[] = [
+  // { id: '1', title: 'Friday Sparring — June 2025', description: 'Full-contact rounds, Dragon Warriors class.', video_url: 'https://youtu.be/VIDEO_ID', thumbnail_url: null, category: 'Sparring' },
+]
 
 // Convert any YouTube URL to an embed URL
 function toEmbedUrl(url: string): string {
@@ -25,7 +42,7 @@ function toEmbedUrl(url: string): string {
 }
 
 // Extract a thumbnail from a YouTube URL
-function getThumbnail(session: PublicSession): string | null {
+function getThumbnail(session: SessionClip): string | null {
   if (session.thumbnail_url) return session.thumbnail_url
   try {
     const u = new URL(session.video_url)
@@ -40,22 +57,11 @@ function getThumbnail(session: PublicSession): string | null {
 const CATEGORY_ALL = 'All'
 
 export default function VideoSessions() {
-  const [sessions, setSessions]   = useState<PublicSession[]>([])
-  const [loaded, setLoaded]       = useState(false)
   const [category, setCategory]   = useState(CATEGORY_ALL)
-  const [playing, setPlaying]     = useState<PublicSession | null>(null)
+  const [playing, setPlaying]     = useState<SessionClip | null>(null)
 
-  useEffect(() => {
-    supabase
-      .from('public_sessions')
-      .select('*')
-      .eq('is_published', true)
-      .order('display_order', { ascending: true })
-      .then(({ data }) => { setSessions(data ?? []); setLoaded(true) })
-  }, [])
-
-  const categories = [CATEGORY_ALL, ...Array.from(new Set(sessions.map(s => s.category)))]
-  const filtered   = category === CATEGORY_ALL ? sessions : sessions.filter(s => s.category === category)
+  const categories = [CATEGORY_ALL, ...Array.from(new Set(SESSIONS.map(s => s.category)))]
+  const filtered   = category === CATEGORY_ALL ? SESSIONS : SESSIONS.filter(s => s.category === category)
 
   const close = useCallback(() => setPlaying(null), [])
 
@@ -86,8 +92,8 @@ export default function VideoSessions() {
     return () => window.removeEventListener('keydown', h)
   }, [close, prev, next])
 
-  // Don't render the section if there are no published sessions
-  if (loaded && sessions.length === 0) return null
+  // Don't render the section if there are no session clips yet
+  if (SESSIONS.length === 0) return null
 
   return (
     <section id="sessions" className="relative py-14 md:py-32 bg-background border-t border-border/30">
