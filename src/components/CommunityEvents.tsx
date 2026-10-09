@@ -9,6 +9,8 @@ interface EventCard {
   description: string
   image?: string
   imageAlt?: string
+  logo?: string
+  logoAlt?: string
   icon?: typeof HeartHandshake
   cta?: { label: string; intent: string }
 }
@@ -30,6 +32,8 @@ const EVENTS: EventCard[] = [
     title: "Claire House Children's Hospice",
     description:
       "We run fundraising events throughout the year in support of Claire House — supporting seriously ill children and their families across Wirral, Cheshire and beyond.",
+    logo: '/logos/claire-house.jpg',
+    logoAlt: "Claire House Children's Hospice logo",
     icon: HeartHandshake,
   },
   {
@@ -100,6 +104,15 @@ export default function CommunityEvents() {
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  </div>
+                ) : event.logo ? (
+                  <div className="relative w-full aspect-[4/3] flex items-center justify-center p-8" style={{ background: '#ffffff' }}>
+                    <img
+                      src={event.logo}
+                      alt={event.logoAlt}
+                      loading="lazy"
+                      className="relative w-full h-full object-contain"
+                    />
                   </div>
                 ) : (
                   <div
