@@ -113,6 +113,14 @@ export default function Footer() {
             <p className="text-xs text-muted-foreground">
               © 2026 Nine Dragons Martial Arts. All rights reserved.
             </p>
+            <a
+              href="https://wirral.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted-foreground/70 hover:text-primary transition-colors"
+            >
+              Powered by <span className="font-semibold">Wirral.ai</span>
+            </a>
           </div>
         </div>
       </div>
