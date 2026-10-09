@@ -20,6 +20,7 @@ import VideoSessions from '@/components/VideoSessions'
 import LeadChatbot from '@/components/LeadChatbot'
 import InlineCTA from '@/components/InlineCTA'
 import CommunityEvents from '@/components/CommunityEvents'
+import PoweredByBadge from '@/components/PoweredByBadge'
 
 // Blog — split out, a visitor may never take this route
 const Blog     = lazy(() => import('@/pages/Blog'))
@@ -88,6 +89,7 @@ export default function App() {
     <BrowserRouter>
       <RouteTracker />
       <LeadChatbot />
+      <PoweredByBadge />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<PublicSite />} />
