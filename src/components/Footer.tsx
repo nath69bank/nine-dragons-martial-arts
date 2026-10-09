@@ -1,4 +1,5 @@
 import { MapPin, Mail, Facebook, Heart } from 'lucide-react'
+import { FACEBOOK_URL } from '@/lib/constants'
 
 const NAV = [
   { label: 'Philosophy', href: '#philosophy' },
@@ -91,7 +92,7 @@ export default function Footer() {
 
           <div className="flex flex-col items-start md:items-end gap-3">
             <a
-              href="https://www.facebook.com/share/19k6oy8pZn/?mibextid=wwXIfr"
+              href={FACEBOOK_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary text-sm transition-colors"

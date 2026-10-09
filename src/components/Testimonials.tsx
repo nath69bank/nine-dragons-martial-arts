@@ -1,8 +1,7 @@
 import { useRef, useLayoutEffect } from 'react'
 import { gsap, reveal } from '@/lib/scrollReveal'
 import { Quote, Star, ExternalLink } from 'lucide-react'
-
-const FACEBOOK_URL = 'https://www.facebook.com/share/19k6oy8pZn/?mibextid=wwXIfr'
+import { FACEBOOK_URL } from '@/lib/constants'
 
 const ENDORSEMENT = {
   quote:
@@ -146,7 +145,7 @@ export default function Testimonials() {
     <section id="testimonials" ref={sectionRef} className="relative py-14 md:py-32 border-t border-border/30">
       <div className="max-w-7xl mx-auto px-5 md:px-20">
         <div ref={eyebrowRef} className="mb-4">
-          <span className="eyebrow">07 ─── Testimonials · The Warriors</span>
+          <span className="eyebrow">01 ─── Testimonials · The Warriors</span>
         </div>
 
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-10 md:mb-12">

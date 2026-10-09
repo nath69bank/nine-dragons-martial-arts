@@ -3,9 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Instagram, Facebook, Youtube, Menu, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
+import { FACEBOOK_URL } from '@/lib/constants'
 
 const NAV_LINKS = [
   { label: 'Home', href: '#home' },
+  { label: 'Reviews', href: '#testimonials' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'Philosophy', href: '#philosophy' },
   { label: 'Disciplines', href: '#disciplines' },
@@ -16,7 +18,7 @@ const NAV_LINKS = [
 ]
 
 const SOCIAL = [
-  { Icon: Facebook, href: 'https://www.facebook.com/share/19k6oy8pZn/?mibextid=wwXIfr', label: 'Facebook' },
+  { Icon: Facebook, href: FACEBOOK_URL, label: 'Facebook' },
   { Icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
   { Icon: Youtube, href: 'https://youtube.com', label: 'YouTube' },
 ]

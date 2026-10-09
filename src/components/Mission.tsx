@@ -58,7 +58,7 @@ export default function Mission() {
       <div className="max-w-5xl mx-auto px-5 md:px-20">
 
         <div ref={eyebrowRef} className="text-center mb-16">
-          <span className="eyebrow">03 ─── Our Mission · The Way</span>
+          <span className="eyebrow">04 ─── Our Mission · The Way</span>
         </div>
 
         <div ref={para1Ref}>

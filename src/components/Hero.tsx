@@ -1,6 +1,7 @@
 import { useRef, useLayoutEffect } from 'react'
-import { MapPin, Clock } from 'lucide-react'
+import { MapPin, Clock, Star } from 'lucide-react'
 import { gsap } from '@/lib/scrollReveal'
+import { FACEBOOK_URL } from '@/lib/constants'
 import EmberCanvas from './EmberCanvas'
 
 export default function Hero() {
@@ -12,6 +13,7 @@ export default function Hero() {
   const logoImgRef   = useRef<HTMLImageElement>(null)
   const nameRef      = useRef<HTMLDivElement>(null)
   const taglineRef   = useRef<HTMLParagraphElement>(null)
+  const trustRef     = useRef<HTMLAnchorElement>(null)
   const ctaRef       = useRef<HTMLDivElement>(null)
   const statsRef     = useRef<HTMLDivElement>(null)
   const locationRef  = useRef<HTMLDivElement>(null)
@@ -25,6 +27,7 @@ export default function Hero() {
       tl.fromTo(logoWrapRef.current, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.4, ease: 'expo.out' })
         .fromTo(nameRef.current, { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.9 }, 0.5)
         .fromTo(taglineRef.current, { opacity: 0 }, { opacity: 1, duration: 0.85 }, 0.78)
+        .fromTo(trustRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, 0.88)
         .fromTo(ctaRef.current, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.65 }, 0.95)
         .fromTo(statsRef.current?.children ?? [], { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: 'back.out(1.7)' }, 1.15)
         .fromTo(locationRef.current, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 1.3)
@@ -116,6 +119,24 @@ export default function Hero() {
           Traditional martial arts for all ages — taught by Master Martin, 3rd Dan.
           Dragon Cubs aged 5 through to adult Warriors.
         </p>
+
+        {/* ── Trust badge — authority before the ask ── */}
+        <a
+          ref={trustRef}
+          href={FACEBOOK_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 liquid-glass rounded-full px-4 py-2 text-xs"
+        >
+          <span className="flex items-center gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} size={11} fill="#c9a14a" stroke="none" />
+            ))}
+          </span>
+          <span className="font-semibold text-white/80">100% Recommend</span>
+          <span style={{ color: 'rgba(201,161,74,0.4)' }}>·</span>
+          <span style={{ color: 'rgba(255,255,255,0.4)' }}>13 Reviews on Facebook</span>
+        </a>
 
         {/* ── CTAs ── */}
         <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none">
