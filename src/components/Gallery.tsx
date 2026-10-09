@@ -29,18 +29,19 @@ interface Photo {
 }
 
 const PHOTOS: Photo[] = [
-  { id: 1,  src: '', alt: 'Morning training drills',          label: 'Morning Drills',           category: 'Training',  featured: true  },
-  { id: 2,  src: '', alt: 'Yellow belt grading ceremony',     label: 'Yellow Belt Ceremony',     category: 'Grading'                   },
-  { id: 3,  src: '', alt: 'Students sparring in class',       label: 'Sparring Session',         category: 'Training'                  },
-  { id: 4,  src: '', alt: 'Community day at the dojo',        label: 'Community Day',            category: 'Events',    featured: true  },
-  { id: 5,  src: '', alt: 'Kickboxing pad work session',      label: 'Kickboxing Pad Work',      category: 'Training'                  },
-  { id: 6,  src: '', alt: 'Master Murphy seminar',            label: 'Master Murphy Seminar',    category: 'Seminars',  featured: true  },
-  { id: 7,  src: '', alt: 'Black belt grading day',           label: 'Black Belt Grading',       category: 'Grading'                   },
-  { id: 8,  src: '', alt: "Claire's House fundraiser event",  label: "Claire's House Fundraiser",category: 'Events'                    },
-  { id: 9,  src: '', alt: 'Dragon Cubs class in session',     label: 'Dragon Cubs Class',        category: 'Training'                  },
-  { id: 10, src: '', alt: 'Kaizendo technique workshop',      label: 'Kaizendo Workshop',        category: 'Seminars'                  },
-  { id: 11, src: '', alt: 'Junior grading celebration',       label: 'Junior Grading Day',       category: 'Grading'                   },
-  { id: 12, src: '', alt: 'Charity tournament action shots',  label: 'Charity Tournament',       category: 'Events'                    },
+  { id: 1,  src: '/gallery/grading-night-full-group.jpg',   alt: 'Full grading night group photo on stage with certificates', label: 'Grading Night',            category: 'Grading',  featured: true },
+  { id: 2,  src: '/gallery/certificate-presentations.jpg',  alt: 'Students receiving grading certificates on stage',          label: 'Certificate Presentations', category: 'Grading'                  },
+  { id: 3,  src: '/gallery/grading-guard-stance-lineup.jpg',alt: 'Students in guard stance line-up on stage',                 label: 'Guard Stance Line-Up',      category: 'Grading'                  },
+  { id: 4,  src: '/gallery/belt-certificate-duo.jpg',       alt: 'Blue and brown belt students with Master Martin',           label: 'Belt Presentation',         category: 'Grading'                  },
+  { id: 5,  src: '/gallery/purple-belt-squad.jpg',          alt: 'Purple belt students posing together',                      label: 'Purple Belt Squad',         category: 'Grading'                  },
+  { id: 6,  src: '/gallery/grading-panel-hall.jpg',         alt: 'Grading panel at St Annes Church Hall',                     label: 'Grading Panel',             category: 'Grading'                  },
+  { id: 7,  src: '/gallery/seminar-briefing-1.jpg',         alt: 'Students seated listening to instructor briefing',          label: 'Seminar Briefing',          category: 'Seminars', featured: true },
+  { id: 8,  src: '/gallery/seminar-briefing-2.jpg',         alt: 'Instructor leading a seminar session',                      label: 'Technique Seminar',         category: 'Seminars'                 },
+  { id: 9,  src: '/gallery/sparring-pad-work.jpg',          alt: 'Students sparring with pads',                               label: 'Sparring Session',          category: 'Training'                 },
+  { id: 10, src: '/gallery/community-heart-hands.jpg',      alt: 'Students and instructors posing together',                  label: 'Dragon Family',             category: 'Training'                 },
+  { id: 11, src: '/gallery/fox-rescue-group.jpg',           alt: 'Students with Bertie the Fox at the Wirral Fox Rescue fundraiser', label: 'Wirral Fox Rescue Fundraiser', category: 'Events', featured: true },
+  { id: 12, src: '/gallery/fox-rescue-poses.jpg',           alt: 'Dragon Cubs posing with Bertie the Fox mascot',             label: 'Bertie the Fox Visits',     category: 'Events'                   },
+  { id: 13, src: '/gallery/womens-self-defence-taster.jpg', alt: 'Free women\'s self-defence taster class, pad work outdoors', label: "Women's Self-Defence Taster", category: 'Events'                 },
 ]
 
 const TABS: Category[] = ['All', 'Training', 'Grading', 'Events', 'Seminars']

@@ -18,6 +18,7 @@ import DragonDivider from '@/components/DragonDivider'
 import VideoSessions from '@/components/VideoSessions'
 import LeadChatbot from '@/components/LeadChatbot'
 import InlineCTA from '@/components/InlineCTA'
+import CommunityEvents from '@/components/CommunityEvents'
 
 // Blog — split out, a visitor may never take this route
 const Blog     = lazy(() => import('@/pages/Blog'))
@@ -56,6 +57,7 @@ function PublicSite() {
       <DragonDivider chapter={6} title="The Life" char="生" />
       <Gallery />
       <VideoSessions />
+      <CommunityEvents />
       <DragonDivider chapter={7} title="The Warriors" char="戰" />
       <Testimonials />
       <InlineCTA
