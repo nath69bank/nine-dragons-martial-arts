@@ -88,7 +88,9 @@ export default function Footer() {
 
           <div className="flex flex-col items-start md:items-end gap-3">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/share/19k6oy8pZn/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary text-sm transition-colors"
             >
               <Facebook size={14} />

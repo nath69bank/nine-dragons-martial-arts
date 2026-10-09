@@ -16,7 +16,7 @@ const NAV_LINKS = [
 ]
 
 const SOCIAL = [
-  { Icon: Facebook, href: 'https://facebook.com', label: 'Facebook' },
+  { Icon: Facebook, href: 'https://www.facebook.com/share/19k6oy8pZn/?mibextid=wwXIfr', label: 'Facebook' },
   { Icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
   { Icon: Youtube, href: 'https://youtube.com', label: 'YouTube' },
 ]
@@ -111,6 +111,8 @@ export default function Navbar() {
               <a
                 key={label}
                 href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={label}
                 className="liquid-glass w-9 h-9 rounded-full flex items-center justify-center text-[rgba(255,255,255,0.5)] hover:text-[#c9a14a] transition-colors duration-200"
               >
@@ -233,6 +235,8 @@ export default function Navbar() {
                   <a
                     key={label}
                     href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={label}
                     className="liquid-glass w-11 h-11 rounded-full flex items-center justify-center text-white/50 hover:text-[#c9a14a] transition-colors"
                   >

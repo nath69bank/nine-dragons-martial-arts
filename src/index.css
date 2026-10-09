@@ -209,6 +209,16 @@
       0 24px 60px rgba(0, 0, 0, 0.5);
     transform: translateY(-7px);
   }
+
+  /* ── Hides scrollbar while keeping native scroll (horizontal review strips) ── */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @keyframes shimmer {
