@@ -1,8 +1,10 @@
 import { useEffect, useRef, useLayoutEffect } from 'react'
-import Hls from 'hls.js'
 import { gsap, reveal } from '@/lib/scrollReveal'
 import EmberCanvas from './EmberCanvas'
 
+// Set a real HLS stream URL to switch the background to live/recorded video.
+// hls.js (a sizeable library) is only fetched when this is non-empty, so it
+// never weighs down the bundle while this stays unused.
 const HLS_URL = ''
 
 export default function JoinCTA() {
@@ -20,13 +22,24 @@ export default function JoinCTA() {
   useEffect(() => {
     const video = videoRef.current
     if (!video || !HLS_URL) return
-    if (Hls.isSupported()) {
-      const hls = new Hls()
-      hls.loadSource(HLS_URL)
-      hls.attachMedia(video)
-      return () => hls.destroy()
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = HLS_URL
+
+    let hls: import('hls.js').default | undefined
+    let cancelled = false
+
+    import('hls.js').then(({ default: Hls }) => {
+      if (cancelled || !video) return
+      if (Hls.isSupported()) {
+        hls = new Hls()
+        hls.loadSource(HLS_URL)
+        hls.attachMedia(video)
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = HLS_URL
+      }
+    })
+
+    return () => {
+      cancelled = true
+      hls?.destroy()
     }
   }, [])
 
@@ -90,14 +103,17 @@ export default function JoinCTA() {
             className="absolute inset-0 rounded-full pointer-events-none"
             style={{ boxShadow: '0 0 30px 6px rgba(201,161,74,0.2), 0 0 80px 20px rgba(26,79,200,0.12)' }}
           />
-          <img
-            ref={logoImgRef}
-            src="/logo.jpeg"
-            alt="Nine Dragons Martial Arts"
-            draggable={false}
-            className="rounded-full"
-            style={{ width: 120, height: 120, objectFit: 'cover' }}
-          />
+          <picture>
+            <source srcSet="/logo.webp" type="image/webp" />
+            <img
+              ref={logoImgRef}
+              src="/logo.jpeg"
+              alt="Nine Dragons Martial Arts"
+              draggable={false}
+              className="rounded-full"
+              style={{ width: 120, height: 120, objectFit: 'cover' }}
+            />
+          </picture>
         </div>
 
         <span ref={eyebrowRef} className="eyebrow !mb-0">

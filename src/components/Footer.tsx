@@ -16,12 +16,15 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 mb-10">
           {/* Brand */}
           <div className="flex items-center gap-4">
-            <img
-              src="/logo.jpeg"
-              alt="Nine Dragons"
-              className="w-12 h-12 rounded-full object-cover shrink-0"
-              style={{ filter: 'drop-shadow(0 0 6px rgba(201,161,74,0.45))' }}
-            />
+            <picture>
+              <source srcSet="/logo.webp" type="image/webp" />
+              <img
+                src="/logo.jpeg"
+                alt="Nine Dragons"
+                className="w-12 h-12 rounded-full object-cover shrink-0"
+                style={{ filter: 'drop-shadow(0 0 6px rgba(201,161,74,0.45))' }}
+              />
+            </picture>
             <div className="flex flex-col leading-none gap-1">
               <span className="font-bold text-sm tracking-[0.18em] uppercase text-white">
                 Nine Dragons

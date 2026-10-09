@@ -49,6 +49,10 @@ const TABS: Category[] = ['All', 'Training', 'Grading', 'Events', 'Seminars']
 const PLACEHOLDER_BG = (id: number) =>
   `linear-gradient(135deg, hsl(${218 + id * 4},55%,${4 + (id % 4) * 2}%) 0%, hsl(${222 + id},50%,${7 + (id % 5) * 2}%) 100%)`
 
+// Every photo in public/gallery/ has a .webp sibling generated alongside it —
+// serve that first, fall back to the .jpg for older browsers.
+const toWebp = (src: string) => src.replace(/\.jpe?g$/i, '.webp')
+
 // ─────────────────────────────────────────────────────────
 // Photo tile image — fades in on load, falls back to placeholder
 // ─────────────────────────────────────────────────────────
@@ -59,16 +63,19 @@ function PhotoImage({ src, alt }: { src: string; alt: string }) {
   if (!src || errored) return null
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      loading="lazy"
-      draggable={false}
-      onLoad={() => setLoaded(true)}
-      onError={() => setErrored(true)}
-      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-      style={{ opacity: loaded ? 1 : 0 }}
-    />
+    <picture>
+      <source srcSet={toWebp(src)} type="image/webp" />
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        draggable={false}
+        onLoad={() => setLoaded(true)}
+        onError={() => setErrored(true)}
+        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+        style={{ opacity: loaded ? 1 : 0 }}
+      />
+    </picture>
   )
 }
 
@@ -101,15 +108,18 @@ function LightboxImage({ src, alt }: { src: string; alt: string }) {
           <div className="w-8 h-8 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
         </div>
       )}
-      <img
-        src={src}
-        alt={alt}
-        draggable={false}
-        onLoad={() => setLoaded(true)}
-        onError={() => setErrored(true)}
-        className="absolute inset-0 w-full h-full object-contain transition-opacity duration-400"
-        style={{ opacity: loaded ? 1 : 0 }}
-      />
+      <picture>
+        <source srcSet={toWebp(src)} type="image/webp" />
+        <img
+          src={src}
+          alt={alt}
+          draggable={false}
+          onLoad={() => setLoaded(true)}
+          onError={() => setErrored(true)}
+          className="absolute inset-0 w-full h-full object-contain transition-opacity duration-400"
+          style={{ opacity: loaded ? 1 : 0 }}
+        />
+      </picture>
     </>
   )
 }

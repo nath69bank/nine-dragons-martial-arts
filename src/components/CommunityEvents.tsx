@@ -97,22 +97,28 @@ export default function CommunityEvents() {
 
                 {event.image ? (
                   <div className="relative w-full aspect-[4/3] overflow-hidden">
-                    <img
-                      src={event.image}
-                      alt={event.imageAlt}
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
+                    <picture>
+                      <source srcSet={event.image.replace(/\.jpe?g$/i, '.webp')} type="image/webp" />
+                      <img
+                        src={event.image}
+                        alt={event.imageAlt}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </picture>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                   </div>
                 ) : event.logo ? (
                   <div className="relative w-full aspect-[4/3] flex items-center justify-center p-8" style={{ background: '#ffffff' }}>
-                    <img
-                      src={event.logo}
-                      alt={event.logoAlt}
-                      loading="lazy"
-                      className="relative w-full h-full object-contain"
-                    />
+                    <picture>
+                      <source srcSet={event.logo.replace(/\.jpe?g$/i, '.webp')} type="image/webp" />
+                      <img
+                        src={event.logo}
+                        alt={event.logoAlt}
+                        loading="lazy"
+                        className="relative w-full h-full object-contain"
+                      />
+                    </picture>
                   </div>
                 ) : (
                   <div

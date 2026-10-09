@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, MessageCircle, Send, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { trackEvent } from '@/lib/analytics'
 
 // ── Config ───────────────────────────────────────────────────────────────────
 const WA_NUMBER = '447803828300'
@@ -26,6 +27,7 @@ function buildWhatsAppMessage(lead: Lead, intent: Intent): string {
 }
 
 function sendToWhatsApp(lead: Lead, intent: Intent) {
+  trackEvent('lead_submitted', { intent })
   const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(buildWhatsAppMessage(lead, intent))}`
   window.open(url, '_blank', 'noopener')
 }
@@ -120,7 +122,9 @@ export default function LeadChatbot() {
   useEffect(() => {
     function handler(e: Event) {
       const detail = (e as CustomEvent).detail as { intent?: string } | undefined
-      openWith(detail?.intent === 'free-trial' ? 'free-trial' : 'enquiry')
+      const resolvedIntent = detail?.intent === 'free-trial' ? 'free-trial' : 'enquiry'
+      trackEvent('chatbot_open', { intent: resolvedIntent })
+      openWith(resolvedIntent)
     }
     window.addEventListener('open-chatbot', handler)
     return () => window.removeEventListener('open-chatbot', handler)
@@ -273,7 +277,10 @@ export default function LeadChatbot() {
               className="flex items-center gap-3 px-4 py-3.5 border-b border-white/10 flex-shrink-0"
               style={{ background: 'hsl(220,65%,7%)' }}
             >
-              <img src="/logo.jpeg" alt="" className="w-8 h-8 rounded-full object-cover border border-gold/40" />
+              <picture>
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img src="/logo.jpeg" alt="" className="w-8 h-8 rounded-full object-cover border border-gold/40" />
+              </picture>
               <div>
                 <p className="text-sm font-semibold text-foreground">Nine Dragons</p>
                 <p className="text-xs text-green-400 flex items-center gap-1">

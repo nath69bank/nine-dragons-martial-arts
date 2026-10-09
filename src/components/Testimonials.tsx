@@ -249,12 +249,15 @@ export default function Testimonials() {
 
         {/* Candid photo + Facebook CTA */}
         <div ref={photoRowRef} className="mt-8 md:mt-10 rounded-2xl overflow-hidden relative">
-          <img
-            src="/testimonials/fb-review-photo.jpg"
-            alt="Nine Dragons students and Master Martin at St Annes Church Hall"
-            loading="lazy"
-            className="w-full h-48 md:h-64 object-cover"
-          />
+          <picture>
+            <source srcSet="/testimonials/fb-review-photo.webp" type="image/webp" />
+            <img
+              src="/testimonials/fb-review-photo.jpg"
+              alt="Nine Dragons students and Master Martin at St Annes Church Hall"
+              loading="lazy"
+              className="w-full h-48 md:h-64 object-cover"
+            />
+          </picture>
           <div
             className="absolute inset-0 flex items-center justify-between px-6 md:px-10"
             style={{ background: 'linear-gradient(90deg, rgba(1,5,14,0.9) 0%, rgba(1,5,14,0.4) 55%, rgba(1,5,14,0.15) 100%)' }}

@@ -52,16 +52,19 @@ export default function Navbar() {
       >
         {/* ── Left: Logo + Name ── */}
         <a href="#home" className="flex items-center gap-3 group shrink-0" onClick={() => setMenuOpen(false)}>
-          <motion.img
-            src="/logo.jpeg"
-            alt="Nine Dragons"
-            className="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover shrink-0"
-            whileHover={{ scale: 1.1 }}
-            style={{
-              filter:
-                'drop-shadow(0 0 6px rgba(201,161,74,0.5)) drop-shadow(0 0 14px rgba(26,79,200,0.3))',
-            }}
-          />
+          <picture>
+            <source srcSet="/logo.webp" type="image/webp" />
+            <motion.img
+              src="/logo.jpeg"
+              alt="Nine Dragons"
+              className="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover shrink-0"
+              whileHover={{ scale: 1.1 }}
+              style={{
+                filter:
+                  'drop-shadow(0 0 6px rgba(201,161,74,0.5)) drop-shadow(0 0 14px rgba(26,79,200,0.3))',
+              }}
+            />
+          </picture>
           <div className="flex flex-col leading-none">
             <span className="font-bold text-sm tracking-[0.18em] uppercase text-white">
               Nine Dragons

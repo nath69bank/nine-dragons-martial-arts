@@ -89,13 +89,16 @@ export default function Hero() {
             className="absolute inset-0 rounded-full pointer-events-none"
             style={{ boxShadow: '0 0 50px 12px rgba(201,161,74,0.18), 0 0 120px 30px rgba(26,79,200,0.12)' }}
           />
-          <img
-            ref={logoImgRef}
-            src="/logo.jpeg"
-            alt="Nine Dragons Martial Arts"
-            draggable={false}
-            style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
-          />
+          <picture>
+            <source srcSet="/logo.webp" type="image/webp" />
+            <img
+              ref={logoImgRef}
+              src="/logo.jpeg"
+              alt="Nine Dragons Martial Arts"
+              draggable={false}
+              style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
+            />
+          </picture>
         </div>
 
         {/* ── Name ── */}

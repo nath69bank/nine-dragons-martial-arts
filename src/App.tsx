@@ -1,5 +1,6 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { lazy, Suspense, useEffect } from 'react'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { trackPageView } from '@/lib/analytics'
 
 // Public site — eager, this is the critical homepage path
 import Navbar from '@/components/Navbar'
@@ -23,6 +24,14 @@ import CommunityEvents from '@/components/CommunityEvents'
 // Blog — split out, a visitor may never take this route
 const Blog     = lazy(() => import('@/pages/Blog'))
 const BlogPost = lazy(() => import('@/pages/BlogPost'))
+
+function RouteTracker() {
+  const location = useLocation()
+  useEffect(() => {
+    trackPageView(location.pathname + location.search)
+  }, [location.pathname, location.search])
+  return null
+}
 
 function RouteFallback() {
   return (
@@ -77,6 +86,7 @@ function PublicSite() {
 export default function App() {
   return (
     <BrowserRouter>
+      <RouteTracker />
       <LeadChatbot />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
