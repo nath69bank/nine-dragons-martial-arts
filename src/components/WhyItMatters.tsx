@@ -52,7 +52,7 @@ export default function WhyItMatters() {
 
         {/* Header */}
         <div ref={eyebrowRef} className="mb-4">
-          <span className="eyebrow">01 ─── Philosophy · The Code</span>
+          <span className="eyebrow">02 ─── Philosophy · The Code</span>
         </div>
 
         <div ref={headerRef} className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16">

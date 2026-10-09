@@ -53,7 +53,7 @@ export default function Schedule() {
       <div className="max-w-7xl mx-auto px-5 md:px-20">
         {/* Header */}
         <div ref={eyebrowRef} className="mb-4">
-          <span className="eyebrow">05 ─── Timetable · The Dojo</span>
+          <span className="eyebrow">06 ─── Timetable · The Dojo</span>
         </div>
         <div ref={headerRef} className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
           <h2 className="section-h2 mb-0">

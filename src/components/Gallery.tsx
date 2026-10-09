@@ -275,7 +275,7 @@ export default function Gallery() {
 
         {/* Header */}
         <div ref={headerRef} className="text-center mb-3">
-          <span className="eyebrow">06 ─── Gallery · The Life</span>
+          <span className="eyebrow">01 ─── Gallery · The Life</span>
         </div>
         <div ref={titleRef} className="text-center mb-4">
           <h2 className="section-h2">

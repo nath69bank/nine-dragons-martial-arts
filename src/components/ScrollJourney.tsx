@@ -2,12 +2,12 @@ import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { gsap } from '@/lib/scrollReveal'
 
 const CHAPTERS = [
+  { id: 'gallery',      label: 'The Life',     char: '生' },
   { id: 'philosophy',   label: 'The Code',     char: '心' },
   { id: 'mission',      label: 'The Way',      char: '道' },
   { id: 'disciplines',  label: 'The Path',     char: '路' },
   { id: 'instructors',  label: 'The Lineage',  char: '師' },
   { id: 'schedule',     label: 'The Dojo',     char: '館' },
-  { id: 'gallery',      label: 'The Life',     char: '生' },
   { id: 'testimonials', label: 'The Warriors', char: '戰' },
   { id: 'join',         label: 'Your Turn',    char: '起' },
 ]

@@ -25,7 +25,7 @@ export default function Instructors() {
     <section id="instructors" ref={sectionRef} className="relative py-14 md:py-32 bg-card/20 border-t border-border/30">
       <div className="max-w-7xl mx-auto px-5 md:px-20">
         <div ref={eyebrowRef} className="mb-4">
-          <span className="eyebrow">04 ─── Instructors · The Lineage</span>
+          <span className="eyebrow">05 ─── Instructors · The Lineage</span>
         </div>
         <h2 ref={titleRef} className="section-h2 mb-14">
           Taught by the <em>Best</em>

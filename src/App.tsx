@@ -38,10 +38,14 @@ function PublicSite() {
       <Navbar />
       <ScrollJourney />
       <Hero />
+      <Gallery />
+      <VideoSessions />
+      <CommunityEvents />
+      <DragonDivider chapter={2} title="The Code" char="心" />
       <WhyItMatters />
-      <DragonDivider chapter={2} title="The Way" char="道" />
+      <DragonDivider chapter={3} title="The Way" char="道" />
       <Mission />
-      <DragonDivider chapter={3} title="The Path" char="龍" />
+      <DragonDivider chapter={4} title="The Path" char="路" />
       <Disciplines />
       <InlineCTA
         eyebrow="Found Your Stage?"
@@ -50,14 +54,10 @@ function PublicSite() {
         buttonText="Claim Your Free Class"
         intent="free-trial"
       />
-      <DragonDivider chapter={4} title="The Lineage" char="師" />
+      <DragonDivider chapter={5} title="The Lineage" char="師" />
       <Instructors />
-      <DragonDivider chapter={5} title="The Dojo" char="館" />
+      <DragonDivider chapter={6} title="The Dojo" char="館" />
       <Schedule />
-      <DragonDivider chapter={6} title="The Life" char="生" />
-      <Gallery />
-      <VideoSessions />
-      <CommunityEvents />
       <DragonDivider chapter={7} title="The Warriors" char="戰" />
       <Testimonials />
       <InlineCTA

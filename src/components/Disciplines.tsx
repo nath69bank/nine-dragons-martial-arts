@@ -114,7 +114,7 @@ export default function Disciplines() {
 
         {/* Section header */}
         <div ref={headerRef} className="mb-4">
-          <span className="eyebrow">03 ─── Disciplines · The Path</span>
+          <span className="eyebrow">04 ─── Disciplines · The Path</span>
         </div>
 
         <div ref={titleRef} className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16 md:mb-20">
