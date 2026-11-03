@@ -20,6 +20,7 @@ import VideoSessions from '@/components/VideoSessions'
 import LeadChatbot from '@/components/LeadChatbot'
 import InlineCTA from '@/components/InlineCTA'
 import CommunityEvents from '@/components/CommunityEvents'
+import UpcomingEvents from '@/components/UpcomingEvents'
 import PoweredByBadge from '@/components/PoweredByBadge'
 
 // Blog — split out, a visitor may never take this route
@@ -59,6 +60,7 @@ function PublicSite() {
       <DragonDivider chapter={2} title="The Life" char="生" />
       <Gallery />
       <VideoSessions />
+      <UpcomingEvents />
       <CommunityEvents />
       <DragonDivider chapter={3} title="The Code" char="心" />
       <WhyItMatters />

@@ -42,6 +42,9 @@ const PHOTOS: Photo[] = [
   { id: 11, src: '/gallery/fox-rescue-group.jpg',           alt: 'Students with Bertie the Fox at the Wirral Fox Rescue fundraiser', label: 'Wirral Fox Rescue Fundraiser', category: 'Events', featured: true },
   { id: 12, src: '/gallery/fox-rescue-poses.jpg',           alt: 'Dragon Cubs posing with Bertie the Fox mascot',             label: 'Bertie the Fox Visits',     category: 'Events'                   },
   { id: 13, src: '/gallery/womens-self-defence-taster.jpg', alt: 'Free women\'s self-defence taster class, pad work outdoors', label: "Women's Self-Defence Taster", category: 'Events'                 },
+  { id: 14, src: '/gallery/autumn-grading-full-group.jpg',  alt: 'Full group photo on stage at the autumn grading night',    label: 'Autumn Grading Night',      category: 'Grading'                  },
+  { id: 15, src: '/gallery/black-belt-grading-stage.jpg',   alt: 'Black belt grading ceremony on stage with certificates',    label: 'Black Belt Grading',        category: 'Grading',  featured: true },
+  { id: 16, src: '/gallery/snowdon-summit-hike.jpg',        alt: 'Nine Dragons students and instructors at the summit of Snowdon', label: 'Snowdon Summit Hike',  category: 'Events'                   },
 ]
 
 const TABS: Category[] = ['All', 'Training', 'Grading', 'Events', 'Seminars']
