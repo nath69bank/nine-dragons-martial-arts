@@ -15,12 +15,36 @@ interface SessionClip {
   description: string | null
   video_url: string
   thumbnail_url: string | null
+  posterUrl?: string
   category: string
 }
 
 const SESSIONS: SessionClip[] = [
+  {
+    id: 'dragon-intro',
+    title: 'Nine Dragons — Brand Reel',
+    description: null,
+    video_url: '/videos/dragon-intro.mp4',
+    thumbnail_url: '/videos/dragon-intro-poster.jpg',
+    category: 'Intro',
+  },
+  {
+    id: 'martin-kove-shoutout',
+    title: 'A Shoutout From Martin Kove',
+    description: 'Martin Kove — John Kreese, The Karate Kid / Cobra Kai',
+    video_url: '/videos/karate-kid-shoutout.mp4',
+    thumbnail_url: '/videos/karate-kid-shoutout-thumb.jpg',
+    posterUrl: '/videos/karate-kid-shoutout-poster.jpg',
+    category: 'Shoutouts',
+  },
   // { id: '1', title: 'Friday Sparring — June 2025', description: 'Full-contact rounds, Dragon Warriors class.', video_url: 'https://youtu.be/VIDEO_ID', thumbnail_url: null, category: 'Sparring' },
 ]
+
+// Local self-hosted clips (public/videos/...) play natively; anything else
+// is treated as a YouTube/Vimeo URL and embedded via iframe.
+function isLocalVideo(url: string): boolean {
+  return url.startsWith('/')
+}
 
 // Convert any YouTube URL to an embed URL
 function toEmbedUrl(url: string): string {
@@ -227,13 +251,25 @@ export default function VideoSessions() {
         >
           <div ref={panelRef} className="relative w-full max-w-4xl" onClick={e => e.stopPropagation()}>
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl">
-              <iframe
-                src={toEmbedUrl(playing.video_url)}
-                title={playing.title}
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-                className="absolute inset-0 w-full h-full"
-              />
+              {isLocalVideo(playing.video_url) ? (
+                <video
+                  key={playing.id}
+                  src={playing.video_url}
+                  poster={playing.posterUrl ?? playing.thumbnail_url ?? undefined}
+                  controls
+                  autoPlay
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-contain"
+                />
+              ) : (
+                <iframe
+                  src={toEmbedUrl(playing.video_url)}
+                  title={playing.title}
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
+              )}
             </div>
 
             <button
