@@ -109,7 +109,7 @@ export default function Footer() {
             </p>
             <p className="text-xs text-muted-foreground">
               Website by{' '}
-              <a href="https://www.wirral.ai" className="hover:text-foreground transition-colors underline-offset-2 hover:underline">
+              <a href="https://go.wirral.ai" target="_blank" rel="noopener nofollow" className="hover:text-foreground transition-colors underline-offset-2 hover:underline">
                 wirral.ai
               </a>
             </p>

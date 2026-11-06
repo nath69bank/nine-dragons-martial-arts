@@ -439,6 +439,10 @@ export default function LeadChatbot() {
                 </motion.div>
               )}
             </AnimatePresence>
+            <p className="pb-2 pt-1 text-center text-[10px] text-foreground/30 flex-shrink-0" style={{ background: 'hsl(220,65%,7%)' }}>
+              Powered by{' '}
+              <a href="https://go.wirral.ai" target="_blank" rel="noopener nofollow" className="hover:text-foreground/60">wirral.ai</a>
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
